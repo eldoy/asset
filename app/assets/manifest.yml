@@ -1,0 +1,8 @@
+# Asset manifest
+css:
+- app.css
+- themes/themes.css
+
+js:
+- app.js
+- lib/cookie.js

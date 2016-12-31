@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Asset</title>
+    <link href="/assets/css/app.css?hello=1" type="text/css" rel="stylesheet" media="all">
+    <link href="<%= asset_url('app.js') %>" type="text/css" rel="stylesheet" media="all">
+
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.css">
+  </head>
+  <body>
+    <img src="/images/logo/logo.png">
+
+    <h1>Welcome to Assets</h1>
+    <aside><%= MODE %> mode.</aside>
+
+    <script src="/assets/js/app.js?hello=test"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js"></script>
+
+  </body>
+</html>
