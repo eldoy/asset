@@ -3,8 +3,8 @@ module Asset
   # The Store class is responsible for compressing your assets if possible,
   # or serve the file directly.
   #
-  # It displays all files in your manifest.yml
-  # if you are running production mode, if not it displays compressed version.
+  # Use the helpers to display all files in your manifest.yml if you
+  # are running development mode, in production it displays the compressed version.
   #
 
   class Store
@@ -14,19 +14,21 @@ module Asset
     attr_accessor :type, :path, :name, :base, :md5, :key, :files
 
     def initialize(path, type = path.split('.')[-1])
+      # The type is js or css
       @type = type
 
       # Set up path
       (@path = path) =~ /(.*)-([a-f0-9]{1,32})\.(.*)/
       @path = path.gsub("-#{@md5}", '') if (@md5 = $2)
 
-      # Name is the name with extension
+      # Name with extension
       @name = @path.split('/')[-1]
 
+      # Generate key
       @key = genkey
-      @files = []
 
       # If application, we load via manifest
+      @files = []
       if @name =~ /application\.(js|css)/
         self.class.manifest[@type].each{|p| @files << disk(p)}
       else
