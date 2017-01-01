@@ -3,7 +3,6 @@ test 'Router'
 puts "Waiting for web server"
 sleep 1
 
-@host = 'http://localhost:4000'
 pull
 
 test 'welcome'

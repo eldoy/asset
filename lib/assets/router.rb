@@ -8,11 +8,25 @@ module Asset
     end
 
     def call(env)
-      # Matching any paths for /assets/:type/:path
-      if env['PATH_INFO'] =~ /(\/assets)?\/(js|css)\/(.+)/
+      # Setting up request
+      @request = Rack::Request.new(env)
+
+      # The routes
+      case @request.path_info
+
+      # Match /assets?/:type/path
+      when /^(\/assets)?\/(js|css)\/(.+)/
         @store = ::Asset::Store.new($3, $2)
-        @result = @store.cached || @store.content
-        @result ? found : not_found
+        (@result = @store.cached || @store.content) ? found : not_found
+
+      # Bounce favicon requests
+      when /^\/favicon\.ico$/
+        not_found
+
+      # Return a standard robots.txt
+      when /^\/robots\.txt$/
+        robots
+
       else
         # No routes found, pass down the middleware stack
         @app.call(env)
@@ -23,36 +37,32 @@ module Asset
 
     # Found
     def found
-      [200, headers, [@result]]
-    end
-
-    # Not found
-    def not_found
-      puts "NOT FOUND!"
-      [404, {'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Length' => 0}, []]
-    end
-
-    # Default headers, content type and caching
-    def headers(options = {})
-      {
+      [ 200, {
         'Content-Type' => "#{CONTENT_TYPES[@store.type]}; charset=UTF-8",
         'Content-Length' => @store.content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
         'Last-Modified' => @store.modified.utc.rfc2822
-      }.merge(options)
+        }, [@result]]
+    end
+
+    # Not found
+    def not_found
+      puts "NOT FOUND!"
+      [ 404, {
+          'Content-Type' => 'text/plain; charset=UTF-8',
+          'Content-Length' => 0
+        }, []]
+    end
+
+    # Robots
+    def robots
+      s = %{Sitemap: #{@request.scheme}://#{@request.host}/sitemap.xml}
+      [ 200, {
+        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Content-Length' => s.size
+        }, [s]]
     end
 
   end
 end
-
-# TODO:
-#   # Server favicon
-#   get('/favicon.ico') do
-#     404
-#   end
-
-#   # The robots file
-#   get('/robots.txt') do
-#     "Sitemap: #{request.scheme}://#{request.host}/sitemap.xml"
-#   end

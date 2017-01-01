@@ -2,12 +2,15 @@ require './config/boot'
 
 include Futest::Helpers
 
+@host = 'http://localhost:4000'
+
 # Load tests. Comment out the ones you don't want to run.
 begin
   start = Time.now
   [
     'store',
-    'router'
+    'router',
+    'bonus'
   ].each{|t| require_relative "#{t}_test"}
 rescue => x
   puts x.message
