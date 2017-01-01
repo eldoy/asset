@@ -17,9 +17,8 @@ module Asset
       @type = type
 
       # Set up path
-      @path = path
-      @path =~ /(.*)-([a-f0-9]{1,32})\.(.*)/
-      @path = @path.gsub("-#{@md5}", '') if (@md5 = $2)
+      (@path = path) =~ /(.*)-([a-f0-9]{1,32})\.(.*)/
+      @path = path.gsub("-#{@md5}", '') if (@md5 = $2)
 
       # Name is the name with extension
       @name = @path.split('/')[-1]

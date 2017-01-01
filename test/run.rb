@@ -8,9 +8,9 @@ include Futest::Helpers
 begin
   start = Time.now
   [
-    # 'store',
-    # 'router',
-    # 'bonus',
+    'store',
+    'router',
+    'bonus',
     'helpers'
   ].each{|t| require_relative "#{t}_test"}
 rescue => x
