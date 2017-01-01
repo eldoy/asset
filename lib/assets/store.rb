@@ -11,7 +11,7 @@ module Asset
     class << self; attr_accessor :manifest; end
     @manifest = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
 
-    attr_accessor :type, :path, :name, :base, :md5, :key, :files
+    attr_accessor :type, :path, :name, :md5, :key, :files
 
     def initialize(path, type = path.split('.')[-1])
       # The type is js or css
