@@ -1,5 +1,9 @@
 test 'Features'
 
+puts "Waiting for web server"
+sleep 1
+
+
 @host = 'http://localhost:4000'
 pull
 
@@ -23,3 +27,5 @@ is @code, 404
 pull '/assets/js/404.js' rescue @code = 404
 is @code, 404
 
+# pull '/assets/js/app-51888dad56e056ff1d827d261c12702b.js'
+# is @code, 200

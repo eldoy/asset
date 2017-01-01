@@ -22,8 +22,9 @@ module Asset
     end
 
     # Get the mtime of a file
+    # DELETE
     def self.mtime(path)
-      File.mtime(File.join(APP_ASSETS, path))
+      File.mtime(path)
     end
 
     # Create an md5 representation of a file
@@ -31,10 +32,21 @@ module Asset
       Digest::MD5.file(path).hexdigest if File.file?(path)
     end
 
-    # Setup a pack or piece
+    # Setup a pack or item
     def self.asset(key, options = {})
       options = {:compress => MODE != 'development'}.merge(options)
-      options[:compress] ? ::Asset::Pack.new(key, options) : ::Asset::Piece.new(key, options)
+      options[:compress] ? ::Asset::Pack.new(key, options) : ::Asset::Item.new(key, options)
+    end
+
+    # Load manifest
+    def self.load_manifest
+      # Load manifest
+      begin
+        YAML.load_file(File.join(APP_ASSETS, 'manifest.yml'))
+      rescue
+        puts "No manifest.yml file found at #{APP_ASSETS}"
+        raise
+      end
     end
 
   end

@@ -8,79 +8,32 @@ module Asset
     end
 
     def call(env)
-      @request = Rack::Request.new(env)
-
-      puts "FROM ASSETS"
-      puts
-
       # Matching any paths coming from
-      if @request.path_info =~ /(\/assets)?\/(js|css)\/(.+)/
-        type, path = $2, $3
-
-        puts type
-        puts path
-
-        path =~ /(.*)-([a-f0-9]{1,32})\.(.*)/
-
-        # Extract asset URL name, type and md5
-        name, md5, ext, md5 = $1, $2, $3
-
-        # Images, fonts and direct links don't have md5's
-        name, dot, type = path.rpartition('.') if !md5
-
-
-
-        # JS and CSS has md5
-        # if md5
-
-        name, dot, type = path.rpartition('.') if !md5
-        key = "#{name}.#{type}"
-
-        puts "NAME: #{name}"
-        puts "TYPE: #{type}"
-        puts "MD5: #{md5}"
-        puts "KEY: #{key}"
-
-        # Return 404 unless name and type
-        return not_found unless name and type
-
-        # Return 404 unless file exists
-        return not_found unless File.file?(File.join(APP_ASSETS, type, key))
-
-        begin
-          q = ::Asset::Util.asset(key)
-
-          # Return if no path found
-          return not_found unless q.asset_path
-
-          puts q.asset_path
-
-          # Set headers for content and cache
-          headers = {
-            'Content-Type' => CONTENT_TYPES[type],
-            'Content-Length' => q.content.size,
-            'Cache-Control' => 'max-age=86400, public',
-            'Expires' => (Time.now + 86400*30).utc.rfc2822,
-            'Last-Modified' => Time.at(q.modified).utc.rfc2822
-          }
-          [200, headers, [q.content]]
-
-        rescue => x
-          puts x.message
-          not_found
-        end
-
+      if env['PATH_INFO'] =~ /(\/assets)?\/(js|css)\/(.+)/
+        @pack = ::Asset::Pack.new($2, $3)
+        @pack.content ? [200, headers, [@pack.content]] : not_found
       else
         @app.call(env)
       end
-
     end
 
     private
 
+    # Not found
     def not_found
       puts "NOT FOUND!"
-      [404, {'Content-Type' => 'text/html'}, []]
+      [404, {'Content-Type' => 'text/html', 'Content-Length' => 0}, []]
+    end
+
+    # Default headers, content type and caching
+    def headers(options = {})
+      {
+        'Content-Type' => CONTENT_TYPES[@pack.type],
+        'Content-Length' => @pack.content.size,
+        'Cache-Control' => 'max-age=86400, public',
+        'Expires' => (Time.now + 86400*30).utc.rfc2822,
+        'Last-Modified' => Time.at(@pack.modified).utc.rfc2822
+      }.merge(options)
     end
 
   end
