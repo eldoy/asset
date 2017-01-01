@@ -1,5 +1,21 @@
 test 'Item'
 
+test 'app css fake md5, existing'
+
+key = 'app-a1888dbd56e058ff1d827d261c12702b.css'
+
+store = ::Asset::Store.new(key)
+is store.type, 'css'
+is store.name, :a? => String
+is store.path, :a? => String
+is store.md5, String
+is store.key, String
+is store.files, :a? => Array
+is store.files.size, :gt => 0
+is store.content, String
+is store.cached, nil
+
+
 test 'app css deep md5, existing'
 
 key = 'lib/app.min-452791b9192e41f88cebdd4b9f08543e.css'
@@ -8,7 +24,6 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
@@ -26,11 +41,10 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, nil
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
@@ -43,7 +57,6 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, nil
 is store.key, String
 is store.files, :a? => Array
@@ -60,11 +73,10 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, nil
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
@@ -77,11 +89,10 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
@@ -94,11 +105,10 @@ store = ::Asset::Store.new(key)
 is store.type, 'js'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, nil
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
@@ -111,11 +121,10 @@ store = ::Asset::Store.new(key)
 is store.type, 'js'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
@@ -128,7 +137,6 @@ store = ::Asset::Store.new(key)
 is store.type, 'js'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
@@ -146,24 +154,22 @@ store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
-is store.files.size, 0
+is store.files.size, 1
 is store.content, nil
 is store.cached, nil
 
 
 test 'application css, md5'
 
-key = 'application-9e13f5f27b151f2c03d2966e06adc7b7.css'
+key = 'application-6c64d8f350f7d8e8393b62dd36409ccc.css'
 
 store = ::Asset::Store.new(key)
 is store.type, 'css'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
@@ -181,7 +187,6 @@ store = ::Asset::Store.new(key)
 is store.type, 'js'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, String
 is store.key, String
 is store.files, :a? => Array
@@ -199,7 +204,6 @@ store = ::Asset::Store.new(key)
 is store.type, 'js'
 is store.name, :a? => String
 is store.path, :a? => String
-is store.base, :a? => String
 is store.md5, nil
 is store.key, String
 is store.files, :a? => Array

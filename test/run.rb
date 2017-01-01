@@ -7,7 +7,7 @@ begin
   start = Time.now
   [
     'store',
-    # 'features'
+    'router'
   ].each{|t| require_relative "#{t}_test"}
 rescue => x
   puts x.message

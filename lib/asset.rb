@@ -8,8 +8,8 @@ module Asset
   # # # # # #
 end
 
-require_relative 'assets/util'
+# require_relative 'assets/util'
 require_relative 'assets/store'
-require_relative 'assets/helpers'
+# require_relative 'assets/helpers'
 require_relative 'assets/router'
 

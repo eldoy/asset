@@ -1,6 +1,6 @@
 class App < Sinatra::Base
 
-  helpers Asset::Helpers
+  # helpers Asset::Helpers
 
   configure do
     # Settings

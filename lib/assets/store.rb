@@ -24,29 +24,35 @@ module Asset
       # Name is the name with extension
       @name = @path.split('/')[-1]
 
-      # Base is the name without extension
-      @base = $1 || @name.rpartition('.')[0]
-
-      @key = "#{@base}#{@md5 ? "-#{@md5}" : ''}.#{@type}"
+      @key = genkey
       @files = []
 
-      # If 'application', we load via manifest
-      if @base == 'application'
-        self.class.manifest[@type].each{|p| @files << abs(p)}
+      # If application, we load via manifest
+      if @name =~ /application\.(js|css)/
+        self.class.manifest[@type].each{|p| @files << disk(p)}
       else
-        @files << abs(@path)
+        @files << disk
       end
+    end
 
-      # Remove nil
-      # TODO: Move away to avoid disk access
-      @files.delete_if{|f| !File.file?(f)}
+    # Generate key
+    def genkey(m = @md5)
+      "#{@path.gsub('/', '-')}#{m ? "-#{m}" : ''}.#{@type}"
+    end
+
+    # Digest, used for caching with timestamp
+    def digest
+      Digest::MD5.hexdigest(modified.to_i.to_s)
     end
 
     # The cached content
     def cached
       begin
-        File.read(cache) if @md5 and @files.any?
+        File.read(cache) if @md5
       rescue
+        # Return nil if supplied md5 is not valid
+        return nil if @key != genkey(digest)
+
         # No cache found, cache it
         compressed.tap do |c|
           File.open(cache, 'w'){|f| f.write(c)}
@@ -68,16 +74,16 @@ module Asset
 
     # The joined content
     def joined
-      @files.map{|f| File.read(f)}.join
+      @files.map{|f| File.read(f) rescue nil}.compact.join
     end
 
     # The content on disk
     def content
-      @content ||= File.read(@files[0]) rescue nil
+      @content ||= @files.map{|f| File.read(f) rescue nil}.compact.join.tap{|c| return nil if c == ''}
     end
 
     # File absolute path, nil if it doesn't exist
-    def abs(f)
+    def disk(f = @path)
       File.join(APP_ASSETS, @type, f)
     end
 
@@ -86,16 +92,21 @@ module Asset
       File.join('tmp', @key)
     end
 
+    # Find the last modified timestamp
+    def modified
+      @modified ||= @files.map{|f| File.mtime(f) rescue nil}.compact.max
+    end
+
     # Print data
     def to_s
       puts "TYPE: #{@type}"
       puts "PATH: #{@path}"
       puts "NAME: #{@name}"
-      puts "BASE: #{@base}"
       puts "MD5: #{@md5}"
       puts "KEY: #{@key}"
       puts "FILES: #{@files.inspect}"
       puts "CONTENT: #{content}"
+      puts "MOD: #{modified}"
     end
   end
 end
