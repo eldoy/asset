@@ -1,22 +1,38 @@
 module Asset
   module Helpers
 
-    # Use this helper in your view to use the assets
-    def asset_url(key, options = {})
-      ::Asset::Util.asset(key, options).asset_path
+    # Script tags
+    def script_tag(*paths)
+      asset(*paths) do |src|
+        %{<script src="#{src}"></script>}
+      end
     end
 
-    def style_tag(href)
-      ::Asset::Util.style_tag(href)
+    # Style tags
+    def style_tag(*paths)
+      asset(*paths) do |src|
+        %{<link href="#{src}" media="all" rel="stylesheet" type="text/css">}
+      end
     end
 
-    def script_tag(src)
-      ::Asset::Util.script_tag(src)
+    # Image tags
+    def image_tag(path)
+      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{(s = stamp(path)) ? "?#{s}" : ''}">} rescue path
     end
 
-    def image_url(name)
-      timestamp = File.mtime(File.join(APP_ASSETS, 'images', File.split(name))).to_i.to_s
-      "/images/#{CGI.escapeHTML(name)}?#{timestamp}"
+    private
+
+    # Build the assets
+    def asset(*paths, &block)
+      paths.map do |path|
+        store = ::Asset::Store.new(path)
+        store.sources.map{|src| yield(src)}
+      end.flatten.join("\n")
+    end
+
+    # Get timestamp
+    def stamp(path)
+      File.mtime(File.join(APP_ASSETS, 'images', File.split(path))).to_i.to_s
     end
 
   end

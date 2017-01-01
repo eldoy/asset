@@ -1,7 +1,12 @@
 module Asset
   class Router
 
-    CONTENT_TYPES = {'js' => 'application/javascript', 'css' => 'text/css'}
+    # Mime types
+    MIME = {
+      'js' => 'application/javascript; charset=UTF-8',
+      'css' => 'text/css; charset=UTF-8',
+      'txt' => 'text/plain; charset=UTF-8'
+    }
 
     def initialize(app)
       @app = app
@@ -38,11 +43,11 @@ module Asset
     # Found
     def found
       [ 200, {
-        'Content-Type' => "#{CONTENT_TYPES[@store.type]}; charset=UTF-8",
+        'Content-Type' => MIME[@store.type],
         'Content-Length' => @store.content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
-        'Last-Modified' => @store.modified.utc.rfc2822
+        'Last-Modified' => @store.timestamp.utc.rfc2822
         }, [@result]]
     end
 
@@ -50,7 +55,7 @@ module Asset
     def not_found
       puts "NOT FOUND!"
       [ 404, {
-          'Content-Type' => 'text/plain; charset=UTF-8',
+          'Content-Type' => MIME['txt'],
           'Content-Length' => 0
         }, []]
     end
@@ -59,7 +64,7 @@ module Asset
     def robots
       s = %{Sitemap: #{@request.scheme}://#{@request.host}/sitemap.xml}
       [ 200, {
-        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Content-Type' => MIME['txt'],
         'Content-Length' => s.size
         }, [s]]
     end

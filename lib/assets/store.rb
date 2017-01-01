@@ -41,8 +41,8 @@ module Asset
     end
 
     # Digest, used for caching with timestamp
-    def digest
-      Digest::MD5.hexdigest(modified.to_i.to_s)
+    def digest(m = timestamp)
+      Digest::MD5.hexdigest(m.to_i.to_s)
     end
 
     # The cached content
@@ -87,14 +87,38 @@ module Asset
       File.join(APP_ASSETS, @type, f)
     end
 
+    # Get the asset source, relative path
+    def sources
+      bundle? ? [bundle] : paths
+    end
+
+    # The application bundle
+    def bundle
+      %{/assets/#{@type}/application-#{digest}.#{@type}}
+    end
+
+    # Get the files as paths
+    def paths
+      @files.map do |f|
+        m = File.mtime(f) rescue next if ::Asset.mode == 'production'
+        f =~ /(\/assets\/(js|css)\/(.*)(\.(js|css)))/
+        %{/assets/#{$2}/#{$3}#{m ? "-#{digest(m)}" : ''}#{$4}}
+      end.compact
+    end
+
+    # Determine if we should bundle
+    def bundle?
+      ::Asset.mode == 'production' and @name == "application.#{@type}"
+    end
+
     # Find the cache path
     def cache
       File.join('tmp', @key)
     end
 
     # Find the last modified timestamp
-    def modified
-      @modified ||= @files.map{|f| File.mtime(f) rescue nil}.compact.max
+    def timestamp
+      @timestamp ||= @files.map{|f| File.mtime(f) rescue nil}.compact.max
     end
 
     # Print data
@@ -106,7 +130,7 @@ module Asset
       puts "KEY: #{@key}"
       puts "FILES: #{@files.inspect}"
       puts "CONTENT: #{content}"
-      puts "MOD: #{modified}"
+      puts "MOD: #{timestamp}"
     end
   end
 end
