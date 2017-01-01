@@ -9,7 +9,7 @@ module Asset
 
   class Store
     class << self; attr_accessor :manifest; end
-    @manifest = YAML.load_file(File.join(APP_ASSETS, 'manifest.yml'))
+    @manifest = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
 
     attr_accessor :type, :path, :name, :base, :md5, :key, :files
 
@@ -84,7 +84,7 @@ module Asset
 
     # File absolute path, nil if it doesn't exist
     def disk(f = @path)
-      File.join(APP_ASSETS, @type, f)
+      File.join(::Asset.path, @type, f)
     end
 
     # Get the asset source, relative path

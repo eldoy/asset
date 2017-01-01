@@ -7,10 +7,11 @@ module Asset
   # @license:  MIT, contributions are welcome.
   # # # # # #
 
-  class << self; attr_accessor :mode; end
+  class << self; attr_accessor :mode, :path; end
 
   # Default is production
   @mode = ENV['RACK_ENV'] || MODE rescue 'development'
+  @path = APP_ASSETS rescue File.join(Dir.pwd, 'app', 'assets')
 end
 
 require_relative 'assets/store'

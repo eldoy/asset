@@ -3,14 +3,14 @@ module Asset
 
     # Script tags
     def script_tag(*paths)
-      asset(*paths) do |src|
+      tag(*paths) do |src|
         %{<script src="#{src}"></script>}
       end
     end
 
     # Style tags
     def style_tag(*paths)
-      asset(*paths) do |src|
+      tag(*paths) do |src|
         %{<link href="#{src}" media="all" rel="stylesheet" type="text/css">}
       end
     end
@@ -22,8 +22,8 @@ module Asset
 
     private
 
-    # Build the assets
-    def asset(*paths, &block)
+    # Build the tags
+    def tag(*paths, &block)
       paths.map do |path|
         store = ::Asset::Store.new(path)
         store.sources.map{|src| yield(src)}
@@ -32,7 +32,7 @@ module Asset
 
     # Get timestamp
     def stamp(path)
-      File.mtime(File.join(APP_ASSETS, 'images', File.split(path))).to_i.to_s
+      File.mtime(File.join(::Asset.path, 'images', File.split(path))).to_i.to_s
     end
 
   end
