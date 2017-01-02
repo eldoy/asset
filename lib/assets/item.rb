@@ -63,13 +63,7 @@ module Asset
 
     # Print data
     def print
-      puts "PATH: #{@path}"
-      puts "TYPE: #{@type}"
-      puts "KEY: #{@key}"
-      puts "NAME: #{@name}"
-      puts "MOD: #{@modified}"
-      puts "FILES: #{files.inspect}"
-      puts "CONTENT: #{content}"
+      [:path, :type, :key, :name, :modified, :files, :content].each{|r| puts "#{r.upcase}: #{send(r).inspect}"}
     end
 
   end
