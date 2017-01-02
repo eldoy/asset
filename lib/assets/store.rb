@@ -9,9 +9,6 @@ module Asset
 
   class Store
 
-    # The manifest is loaded from /app/assets/manifest.yml
-    class << self; attr_accessor :manifest; end
-
     # Accessors
     attr_accessor :type, :path, :name, :md5, :key, :files
 
@@ -33,7 +30,7 @@ module Asset
       # If application, we load via manifest
       @files = []
       if @name =~ /application\.(js|css)/
-        self.class.manifest[@type].each do |f|
+        ::Asset.manifest[@type].each do |f|
           f.each{|k, v| @files << disk(k)}
         end
       else
@@ -139,12 +136,5 @@ module Asset
       puts "MOD: #{timestamp}"
     end
 
-    # Load the manifest from file and record the timestamps
-    @manifest = YAML.load_file(File.join(::Asset.path, 'manifest.yml')).
-    inject({}) do |q, (k, v)|
-      q[k] = v.map do |l|
-        {l => File.mtime(File.join(::Asset.path, k, l)).to_i}
-      end; q
-    end
   end
 end

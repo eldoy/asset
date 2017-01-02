@@ -1,8 +1,10 @@
 # Asset manifest. Only the files mentioned here will be available.
-# Options are compressed: true/false, bundle: true/false
+# Options are compress: true/false, bundle: true/false
 css:
 - app.css
-- themes/themes.css
+- themes/themes.css:
+  bundle: false
+  compress: false
 
 js:
 - app.js
@@ -12,7 +14,7 @@ js:
 # Example with options:
 # css:
 # - app.css:
-#   - compressed: true
+#   - compress: true
 #   - bundle: false
 # - themes/themes.css
 

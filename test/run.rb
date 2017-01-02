@@ -11,7 +11,9 @@ begin
     'store',
     'router',
     'bonus',
-    'helpers'
+    'helpers',
+    'manifest'
+
   ].each{|t| require_relative "#{t}_test"}
 rescue => x
   puts x.message
