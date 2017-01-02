@@ -1,4 +1,5 @@
-# Asset manifest
+# Asset manifest. Only the files mentioned here will be available.
+# Options are compressed: true/false, bundle: true/false
 css:
 - app.css
 - themes/themes.css
@@ -6,3 +7,16 @@ css:
 js:
 - app.js
 - lib/cookie.js
+
+
+# Example with options:
+# css:
+# - app.css:
+#   - compressed: true
+#   - bundle: false
+# - themes/themes.css
+
+# js:
+# - app.js:
+#   - bundle: false
+# - lib/cookie.js

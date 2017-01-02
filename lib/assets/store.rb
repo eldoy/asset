@@ -8,11 +8,14 @@ module Asset
   #
 
   class Store
-    class << self; attr_accessor :manifest; end
-    @manifest = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
 
+    # The manifest is loaded from /app/assets/manifest.yml
+    class << self; attr_accessor :manifest; end
+
+    # Accessors
     attr_accessor :type, :path, :name, :md5, :key, :files
 
+    # Init
     def initialize(path, type = path.split('.')[-1])
       # The type is js or css
       @type = type
@@ -30,7 +33,9 @@ module Asset
       # If application, we load via manifest
       @files = []
       if @name =~ /application\.(js|css)/
-        self.class.manifest[@type].each{|p| @files << disk(p)}
+        self.class.manifest[@type].each do |f|
+          f.each{|k, v| @files << disk(k)}
+        end
       else
         @files << disk
       end
@@ -132,6 +137,14 @@ module Asset
       puts "FILES: #{@files.inspect}"
       puts "CONTENT: #{content}"
       puts "MOD: #{timestamp}"
+    end
+
+    # Load the manifest from file and record the timestamps
+    @manifest = YAML.load_file(File.join(::Asset.path, 'manifest.yml')).
+    inject({}) do |q, (k, v)|
+      q[k] = v.map do |l|
+        {l => File.mtime(File.join(::Asset.path, k, l)).to_i}
+      end; q
     end
   end
 end
