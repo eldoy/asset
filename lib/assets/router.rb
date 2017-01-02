@@ -8,10 +8,12 @@ module Asset
       'txt' => 'text/plain; charset=UTF-8'
     }
 
+    # Init
     def initialize(app)
       @app = app
     end
 
+    # Call
     def call(env)
       # Setting up request
       @request = Rack::Request.new(env)
@@ -44,7 +46,7 @@ module Asset
     def found
       [ 200, {
         'Content-Type' => MIME[@store.type],
-        'Content-Length' => @store.content.size,
+        'Content-Length' => @result.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
         'Last-Modified' => @store.timestamp.utc.rfc2822
