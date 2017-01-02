@@ -19,25 +19,24 @@ is @code, 200
 
 test 'not found, no md5'
 
-pull '/assets/css/app.js' rescue @code = 404
+pull '/assets/css/app.js'
 is @code, 404
 
-pull '/css/app.js' rescue @code = 404
+pull '/css/app.js'
 is @code, 404
 
-pull '/assets/css/404.js' rescue @code = 404
+pull '/assets/css/404.js'
 is @code, 404
 
-pull '/assets/js/404.js' rescue @code = 404
+pull '/assets/js/404.js'
 is @code, 404
 
 test 'found, md5'
 
-pull '/assets/js/app-51888dad56e056ff1d827d261c12702b.js'
+pull '/assets/js/app-3e259351b6d47daf1d7c2567ce3914ab.js'
 is @code, 200
 
-test 'not found, wrong md5'
-pull '/assets/css/app-a1888dbd56e058ff1d827d261c12702b.css'
+test 'found, wrong md5'
+pull '/assets/css/app-a1888dbd56e058ff1d827a261c12702b.css'
 is @code, 200
-is @body.split("\n").size, :gt => 1
 

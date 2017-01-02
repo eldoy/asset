@@ -8,7 +8,6 @@ include Futest::Helpers
 begin
   start = Time.now
   [
-    'store',
     'router',
     'bonus',
     'helpers',

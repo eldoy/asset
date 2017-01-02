@@ -3,14 +3,14 @@ module Asset
 
     # Script tags
     def script_tag(*paths)
-      tag(*paths) do |src|
+      tag('js', *paths) do |src|
         %{<script src="#{src}"></script>}
       end
     end
 
     # Style tags
     def style_tag(*paths)
-      tag(*paths) do |src|
+      tag('css', *paths) do |src|
         %{<link href="#{src}" media="all" rel="stylesheet" type="text/css">}
       end
     end
@@ -23,10 +23,17 @@ module Asset
     private
 
     # Build the tags
-    def tag(*paths, &block)
+    def tag(type, *paths, &block)
       paths.map do |path|
-        store = ::Asset::Store.new(path)
-        store.sources.map{|src| yield(src)}
+        # Yield the source back to the tag builder
+        item = ::Asset.manifest.find{|i| i.path == path}
+
+        if !item
+          yield(path); next
+        end
+
+        item.files.map{|src| yield(%{/assets/#{type}/#{src}})}
+
       end.flatten.join("\n")
     end
 

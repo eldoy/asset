@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/fugroup/futest
-  revision: f5b935f5a27cce0f040a91d925c7ea57d876661a
+  revision: 0dfe41630d395f2286127fbfb4a0d13aea553bd6
   specs:
     futest (0.0.4)
       rest-client (>= 2.0)

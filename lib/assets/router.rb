@@ -23,8 +23,25 @@ module Asset
 
       # Match /assets?/:type/path
       when /^(\/assets)?\/(js|css)\/(.+)/
-        @store = ::Asset::Store.new($3, $2)
-        (@result = @store.cached || @store.content) ? found : not_found
+        type, path = $2, $3
+
+        path =~ /(-[a-f0-9]{1,32})/
+        path = path.gsub($1, '') if $1
+
+        puts "KEY: #{$1 || 'No Key.'}" if ::Asset.debug
+
+        item = ::Asset.manifest.find{|i| i.path == path and i.type == type}
+
+        # Return not found if not in manifest
+        return not_found unless item
+
+        # Return not found if key is wrong
+        return not_found if $1 and $1 != item.key
+
+        # Return not found if no content
+        return not_found unless item.content(!!$1)
+
+        found(item)
 
       # Bounce favicon requests
       when /^\/favicon\.ico$/
@@ -43,32 +60,26 @@ module Asset
     private
 
     # Found
-    def found
+    def found(item)
       [ 200, {
-        'Content-Type' => MIME[@store.type],
-        'Content-Length' => @result.size,
+        'Content-Type' => MIME[item.type],
+        'Content-Length' => item.content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
-        'Last-Modified' => @store.timestamp.utc.rfc2822
-        }, [@result]]
+        'Last-Modified' => item.modified.utc.rfc2822
+        }, [item.content]]
     end
 
     # Not found
-    def not_found
-      puts "NOT FOUND!"
-      [ 404, {
-          'Content-Type' => MIME['txt'],
-          'Content-Length' => 0
-        }, []]
+    def not_found(path = '@')
+      puts "Not Found: #{path}" if Asset.debug
+      [404, {'Content-Type' => MIME['txt'], 'Content-Length' => 0}, []]
     end
 
     # Robots
     def robots
       s = %{Sitemap: #{@request.scheme}://#{@request.host}/sitemap.xml}
-      [ 200, {
-        'Content-Type' => MIME['txt'],
-        'Content-Length' => s.size
-        }, [s]]
+      [200, {'Content-Type' => MIME['txt'],'Content-Length' => s.size}, [s]]
     end
 
   end
