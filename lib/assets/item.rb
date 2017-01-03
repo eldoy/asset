@@ -3,15 +3,18 @@ module Asset
 
     attr_accessor :path, :type, :key, :modified, :compress, :bundle, :name
 
+    # Init
     def initialize(*args)
       @path, @type, @key, @modified, @compress, @bundle = args
       @name = @path.rpartition('.')[0]
     end
 
+    # File? Or bundle?
     def file?
       @path !~ /^application\.(js|css)$/
     end
 
+    # Get the files. Pass keyed = false to get the path instead of the file
     def files(keyed = true)
       if file? or (keyed and ::Asset.mode == 'production')
         [keyed ? file : path]
@@ -20,11 +23,13 @@ module Asset
       end
     end
 
+    # Get the file, meaning the full path with key
     def file
       return @path if ::Asset.mode == 'development'
       %{#{file? ? @name : 'application'}-#{@key}.#{@type}}
     end
 
+    # Get the content. Pass cache = false to fetch from disk instead of the cache.
     def content(cache = (::Asset.mode = 'production'))
       return joined unless cache
 
