@@ -95,8 +95,8 @@ app = Rack::Builder.new do
 end
 
 run app
-```
-# Files will be available here:
+
+# Files will be available here on your server (HTTP):
 /assets/js/app.js
 /assets/js/lib/app.js
 /assets/css/app.css
