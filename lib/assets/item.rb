@@ -55,7 +55,7 @@ module Asset
 
     # All files joined
     def joined
-      @joined ||= files(false).map{|f| File.read(File.join(::Asset.path, @type, f))}.join.tap{|r| puts "Joined: #{r.inspect}" if ::Asset.debug}
+      @joined ||= files(false).map{|f| File.read(File.join(::Asset.path, @type, f))}.join
     end
 
     # Print data

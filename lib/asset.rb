@@ -10,10 +10,10 @@ module Asset
   class << self; attr_accessor :mode, :path, :cache, :manifest, :debug; end
 
   # Default is production
-  @mode = ENV['RACK_ENV'] || MODE rescue 'development'
-  @path = APP_ASSETS rescue File.join(Dir.pwd, 'app', 'assets')
+  @mode = ENV['RACK_ENV'] || 'development'
+  @path = File.join(Dir.pwd, 'app', 'assets')
   @cache = File.join(Dir.pwd, 'tmp')
-  @debug = true
+  @debug = false
 
 end
 

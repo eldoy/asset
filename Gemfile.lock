@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/fugroup/fuprint
+  revision: c7da2ef76afb4ef8c487f757d9c97142e88468dc
+  specs:
+    fuprint (0.0.1)
+
+GIT
   remote: https://github.com/fugroup/futest
   revision: 0dfe41630d395f2286127fbfb4a0d13aea553bd6
   specs:
@@ -59,6 +65,7 @@ PLATFORMS
 
 DEPENDENCIES
   erubis
+  fuprint!
   futest!
   haml
   liquid

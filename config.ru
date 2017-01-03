@@ -7,7 +7,7 @@ require './app.rb'
 
 # Set up middleware stack
 app = Rack::Builder.new do
-  use Asset::Print
+  use Fuprint::Request
   use Asset::Router
   use Rack::Static, :urls => ['/images', '/fonts'], :root => APP_ASSETS,
     :header_rules => [
