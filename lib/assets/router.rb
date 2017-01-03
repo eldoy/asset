@@ -28,18 +28,10 @@ module Asset
         path =~ /(-[a-f0-9]{1,32})/
         path = path.gsub($1, '') if $1
 
-        puts "KEY: #{$1 || 'No Key.'}" if ::Asset.debug
-
         item = ::Asset.manifest.find{|i| i.path == path and i.type == type}
 
-        # Return not found if not in manifest
-        return not_found unless item
-
-        # Return not found if key is wrong
-        return not_found if $1 and $1 != item.key
-
-        # Return not found if no content
-        return not_found unless item.content(!!$1)
+        # Not found if no item, wrong key or no content
+        return not_found if !item or ($1 and $1 != item.key) or !item.content(!!$1)
 
         found(item)
 
@@ -61,8 +53,7 @@ module Asset
 
     # Found
     def found(item)
-      [ 200, {
-        'Content-Type' => MIME[item.type],
+      [ 200, {'Content-Type' => MIME[item.type],
         'Content-Length' => item.content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
@@ -72,7 +63,6 @@ module Asset
 
     # Not found
     def not_found(path = '@')
-      puts "Not Found: #{path}" if Asset.debug
       [404, {'Content-Type' => MIME['txt'], 'Content-Length' => 0}, []]
     end
 

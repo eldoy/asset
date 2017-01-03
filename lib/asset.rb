@@ -23,6 +23,5 @@ require_relative 'assets/item'
 # Load the manifest
 ::Asset.manifest = ::Asset::Util.load_manifest
 
-
 require_relative 'assets/helpers'
 require_relative 'assets/router'

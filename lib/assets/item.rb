@@ -25,8 +25,7 @@ module Asset
 
     # Get the file, meaning the full path with key
     def file
-      return @path if ::Asset.mode == 'development'
-      %{#{file? ? @name : 'application'}-#{@key}.#{@type}}
+      ::Asset.mode == 'development' ? @path : %{#{file? ? @name : 'application'}-#{@key}.#{@type}}
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.
@@ -41,10 +40,7 @@ module Asset
 
     # Store in cache
     def write_cache(r)
-      File.open(File.join(::Asset.cache, %{#{@key}.#{@type}}), 'w') do |f|
-        puts "Cached!: #{key}" if ::Asset.debug
-        f.write(r)
-      end
+      File.open(File.join(::Asset.cache, %{#{@key}.#{@type}}), 'w'){|f| f.write(r)}
     end
 
     # Compressed joined files
