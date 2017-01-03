@@ -5,7 +5,7 @@ module Asset
 
     def initialize(*args)
       @path, @type, @key, @modified, @compress, @bundle = args
-      @name = @path.split('.')[0]
+      @name = @path.rpartition('.')[0]
     end
 
     def file?
@@ -26,39 +26,35 @@ module Asset
     end
 
     def content(cache = (::Asset.mode = 'production'))
-      if cache
-        result = File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})) rescue nil
+      return joined unless cache
 
-        # Return from cache if found
-        return result if result
+      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap{|f| return f if f} rescue nil
 
-        # Read all the files and join them
-        joined = files(false).map do |f|
-          File.read(File.join(::Asset.path, @type, f))
-        end.join
+      # Compress the files
+      compressed.tap{|r| write_cache(r)}
+    end
 
-        puts "Joined: #{joined.inspect}"
-
-        # Compress the files
-        compressed = case @type
-        when 'css'
-          Tilt.new('scss', :style => :compressed){ joined }.render rescue joined
-        when 'js'
-          Uglifier.compile(joined, {}) rescue joined
-        end
-
-        # Store in cache
-        File.open(File.join(::Asset.cache, %{#{@key}.#{@type}}), 'w') do |f|
-          puts "Cached!: #{key}"
-          f.write(compressed)
-        end
-        compressed
-      else
-        # Read all the files and join them
-        joined = files(false).map do |f|
-          File.read(File.join(::Asset.path, @type, f))
-        end.join
+    # Store in cache
+    def write_cache(r)
+      File.open(File.join(::Asset.cache, %{#{@key}.#{@type}}), 'w') do |f|
+        puts "Cached!: #{key}" if ::Asset.debug
+        f.write(r)
       end
+    end
+
+    # Compressed joined files
+    def compressed
+      case @type
+      when 'css'
+        Tilt.new('scss', :style => :compressed){ joined }.render rescue joined
+      when 'js'
+        Uglifier.compile(joined, {}) rescue joined
+      end
+    end
+
+    # All files joined
+    def joined
+      @joined ||= files(false).map{|f| File.read(File.join(::Asset.path, @type, f))}.join.tap{|r| puts "Joined: #{r.inspect}" if ::Asset.debug}
     end
 
     # Print data

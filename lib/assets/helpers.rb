@@ -17,7 +17,8 @@ module Asset
 
     # Image tags
     def image_tag(path)
-      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{(s = stamp(path)) ? "?#{s}" : ''}">} rescue path
+      b = ::Asset::Util.mtime("images/#{path}")
+      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{b ? "?#{b.to_i}" : ''}">} rescue path
     end
 
     private
@@ -25,21 +26,14 @@ module Asset
     # Build the tags
     def tag(type, *paths, &block)
       paths.map do |path|
+
         # Yield the source back to the tag builder
         item = ::Asset.manifest.find{|i| i.path == path}
 
-        if !item
-          yield(path); next
-        end
-
-        item.files.map{|src| yield(%{/assets/#{type}/#{src}})}
+        # Src is same as path if item not found
+        item ? item.files.map{|src| yield(%{/assets/#{type}/#{src}})} : yield(path)
 
       end.flatten.join("\n")
-    end
-
-    # Get timestamp
-    def stamp(path)
-      File.mtime(File.join(::Asset.path, 'images', File.split(path))).to_i.to_s
     end
 
   end

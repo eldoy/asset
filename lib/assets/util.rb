@@ -1,6 +1,17 @@
 module Asset
   class Util
 
+    # Get timestamp
+    def self.mtime(path)
+      File.mtime(asset_path(path))
+    end
+
+    # Asset path
+    def self.asset_path(path)
+      File.join(::Asset.path, File.split(path))
+    end
+
+    # Digest
     def self.digest(path, time)
       Digest::MD5.hexdigest(%{#{path}#{time.to_i}})
     end
@@ -21,28 +32,21 @@ module Asset
           path = h ? name.keys[0] : name
 
           # Get the modified time of the asset
-          modified = File.mtime(File.join(::Asset.path, type, path)).utc
+          modified = mtime("#{type}/#{path}").utc
 
           # Record max to know the latest change
           max = modified if modified > max
 
           # Loading manifest with items
           manifest << ::Asset::Item.new(
-            path,
-            type,
-            digest(path, modified),
-            modified,
-            (h ? name['compress'] : true),
-            (h ? name['bundle'] : true)
-          )
+            path, type, digest(path, modified), modified,
+            (h ? name['compress'] : true), (h ? name['bundle'] : true))
         end
-        item = ::Asset::Item.new(
-          "application.#{type}",
-          type,
-          digest("application.#{type}", max),
-          max
-        )
-        manifest.insert(0, item)
+
+        # Insert the application bundle
+        manifest.insert(0, ::Asset::Item.new(
+          "application.#{type}", type,
+          digest("application.#{type}", max), max))
       end
       manifest
     end
