@@ -14,13 +14,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'uglifier', '>= 0'
   s.add_development_dependency 'tilt', '>= 0'
   s.add_development_dependency 'liquid', '>= 0'
-  s.add_development_dependency 'haml', '>= 0'
-  s.add_development_dependency 'sass', '>= 0'
   s.add_development_dependency 'erubis', '>= 0'
   s.add_development_dependency 'rest-client', '>= 0'
   s.add_development_dependency 'request_store', '>= 0'
   s.add_development_dependency 'fuprint', '>= 0'
-  s.add_development_dependency 'futest', '>= 0'
   s.add_development_dependency 'futest', '>= 0'
 
   s.homepage    = 'https://github.com/fugroup/asset'
