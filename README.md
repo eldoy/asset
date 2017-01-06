@@ -11,15 +11,15 @@ gem install asset
 or add to Gemfile. In your Rack app include the line
 ```ruby
 # Rack apps
-include Asset::Helpers
+include Asset::Router
 
 # Sinatra
-helpers Asset::Helpers
+helpers Asset::Router
 ```
 
 ### Settings
 ```ruby
-Asset.mode = ENV['RACK_ENV'] || MODE rescue 'development'
+Asset.mode = ENV['RACK_ENV'] || 'development'
 Asset.path = APP_ASSETS rescue File.join(Dir.pwd, 'app', 'assets')
 Asset.cache = File.join(Dir.pwd, 'tmp')
 Asset.debug = false
@@ -111,15 +111,8 @@ The helpers will generate these URLs, so you don't have to worry about it.
 
 ### Images and fonts
 
-To include support for other static file types likes images and fonts, use [Rack::Static](https://github.com/rack/rack/blob/master/lib/rack/static.rb)
+To include support for other static file types likes images and fonts, use [Rack::Static,](https://github.com/rack/rack/blob/master/lib/rack/static.rb) see the example above.
 
-```ruby
-use Rack::Static, :urls => ['/images', '/fonts'], :root => APP_ASSETS,
-  :header_rules => [
-    [:all, {'Cache-Control' => 'public, max-age=31536000'}],
-    [:fonts, {'Access-Control-Allow-Origin' => '*'}]
-  ]
-```
 
 We've included an image tag helper too for this use:
 ```erb
