@@ -6,12 +6,14 @@ Gem::Specification.new do |s|
   s.description = "The only thing you need for your assets."
   s.authors     = ["Fugroup Limited"]
   s.email       = 'vidar@fugroup.net'
-
   s.license     = 'MIT'
+
   s.add_runtime_dependency 'rack', '>= 0'
+  s.add_runtime_dependency 'sass', '>= 0'
+  s.add_runtime_dependency 'uglifier', '>= 0'
+
   s.add_development_dependency 'sinatra', '>= 0'
   s.add_development_dependency 'puma', '>= 0'
-  s.add_development_dependency 'uglifier', '>= 0'
   s.add_development_dependency 'tilt', '>= 0'
   s.add_development_dependency 'liquid', '>= 0'
   s.add_development_dependency 'erubis', '>= 0'
