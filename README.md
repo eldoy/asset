@@ -85,7 +85,7 @@ js:
 
 In development mode, all files will be printed. In production mode, you'll get only one file.
 
-The file will also be cached and compressed. The cache auto-expires.
+The file will also be cached and compressed. The cache auto-expires, but if you're storing the cache on disk you can clean it with a cron job.
 
 ### Middleware
 
