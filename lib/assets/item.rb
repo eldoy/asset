@@ -29,10 +29,15 @@ module Asset
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.
-    def content(cache = (::Asset.mode = 'production'))
-      return joined unless cache
+    def content(key = nil)
+      key ? (@cached ||= cached) : (@joined ||= joined)
+    end
 
-      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap{|f| return f if f} rescue nil
+    # The cached content
+    def cached
+      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap do |f|
+        return f if f
+      end rescue nil
 
       # Compress the files
       compressed.tap{|r| write_cache(r)}

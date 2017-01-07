@@ -2,6 +2,7 @@ require './config/boot'
 
 include Futest::Helpers
 
+sleep 1 # Wait for server
 @host = 'http://localhost:4000'
 
 # Load tests. Comment out the ones you don't want to run.
@@ -11,12 +12,11 @@ begin
     'router',
     'bonus',
     'helpers',
-    'manifest'
+    'item'
 
   ].each{|t| require_relative "#{t}_test"}
 rescue => x
-  puts x.message
-  err(x)
+  err x, :vv
 ensure
   puts Time.now - start
 end

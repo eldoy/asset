@@ -3,16 +3,16 @@ module Asset
 
     # Get timestamp
     def self.mtime(path)
-      File.mtime(asset_path(path))
+      File.mtime(asset_path(path)).utc
     end
 
     # Asset path
     def self.asset_path(path)
-      File.join(::Asset.path, File.split(path))
+      File.join(::Asset.path, path)
     end
 
     # Digest
-    def self.digest(path, time)
+    def self.digest(path, time = mtime(path))
       Digest::MD5.hexdigest(%{#{path}#{time.to_i}})
     end
 
@@ -32,7 +32,7 @@ module Asset
           path = h ? name.keys[0] : name
 
           # Get the modified time of the asset
-          modified = mtime("#{type}/#{path}").utc
+          modified = mtime("#{type}/#{path}")
 
           # Record max to know the latest change
           max = modified if modified > max

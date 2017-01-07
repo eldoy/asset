@@ -24,14 +24,14 @@ module Asset
       # Match /assets?/:type/path
       when /^(\/assets)?\/(js|css)\/(.+)/
         type, path = $2, $3
+        path =~ /-([a-f0-9]{1,32})/
+        path.gsub!("-#{@key}", '') if (@key = $1)
 
-        path =~ /(-[a-f0-9]{1,32})/
-        path = path.gsub($1, '') if $1
-
+        # Find the item
         item = ::Asset.manifest.find{|i| i.path == path and i.type == type}
 
         # Not found if no item, wrong key or no content
-        return not_found if !item or ($1 and $1 != item.key) or !item.content(!!$1)
+        return not_found if !item or (@key and @key != item.key) or !item.content(@key)
 
         found(item)
 
@@ -54,11 +54,11 @@ module Asset
     # Found
     def found(item)
       [ 200, {'Content-Type' => MIME[item.type],
-        'Content-Length' => item.content.size,
+        'Content-Length' => item.content(@key).size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
         'Last-Modified' => item.modified.utc.rfc2822
-        }, [item.content]]
+        }, [item.content(@key)]]
     end
 
     # Not found

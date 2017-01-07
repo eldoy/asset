@@ -1,4 +1,4 @@
-test 'Manifest'
+test 'Item'
 
 ::Asset.mode = 'development'
 
@@ -38,5 +38,6 @@ is item.files.size, 1
 
 test '* content'
 
-is item.content, :a? => String
-is item.content.split("\n").size, 1
+# Find item
+is item.content(item.key), :a? => String
+is item.content(item.key).split("\n").size, 1
