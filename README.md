@@ -68,7 +68,7 @@ js:
 - lib/cookie.js
 ```
 
-```ruby
+```erb
 # After setting up the manifest file, use the helpers in your views
 <%= script_tag 'app.js' %>
 <%= style_tag 'app.css' %>
