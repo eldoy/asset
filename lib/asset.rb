@@ -1,12 +1,14 @@
 require 'rack'
 require 'yaml'
+require 'uglifier'
+require 'tilt'
 
 # Asset packer, middleware and helpers
 # @homepage: https://github.com/fugroup/asset
 # @author:   Vidar <vidar@fugroup.net>, Fugroup Ltd.
 # @license:  MIT, contributions are welcome.
 module Asset
-  class << self; attr_accessor :mode, :path, :cache, :manifest, :debug; end
+  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :debug; end
 
   # Default is production
   @mode = ENV['RACK_ENV'] || 'development'

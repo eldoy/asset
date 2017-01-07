@@ -15,7 +15,6 @@ is item.key, :a? => String
 is item.modified, :a? => Time
 is item.bundle, nil
 is item.compress, nil
-is item.file?, false
 is item.files, :a? => Array
 is item.files.size, :gt => 1
 ::Asset.mode = 'production'
@@ -30,7 +29,6 @@ is item.key, :a? => String
 is item.modified, :a? => Time
 is item.bundle, true
 is item.compress, true
-is item.file?, true
 is item.files, :a? => Array
 is item.files.size, 1
 ::Asset.mode = 'development'

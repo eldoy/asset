@@ -1,43 +1,34 @@
 module Asset
   class Item
 
-    attr_accessor :path, :type, :key, :modified, :compress, :bundle, :name
+    attr_accessor :path, :type, :key, :modified, :compress, :bundle, :app, :name, :kpath
 
     # Init
     def initialize(*args)
       @path, @type, @key, @modified, @compress, @bundle = args
+      @app = !!(@path =~ /^application\.(js|css)$/)
       @name = @path.rpartition('.')[0]
+      @kpath = "#{@name}-#{kext}"
     end
 
-    # File? Not bundle?
-    def file?
-      @path !~ /^application\.(js|css)$/
+    # Get the files for this item
+    def files
+      (@app and !p?) ? bundle_files : [p? ? @kpath : @path]
     end
 
-    # Get the files. Pass keyed = false to get the path instead of the file
-    def files(keyed = true)
-      if file? or (keyed and ::Asset.mode == 'production')
-        [keyed ? file : path]
-      else
-        ::Asset.manifest.select{|i| i.type == @type and i.file?}.map{|i| keyed ? i.file : i.path}
-      end
-    end
-
-    # Get the file, meaning the full path with key
-    def file
-      ::Asset.mode == 'development' ? @path : %{#{file? ? @name : 'application'}-#{@key}.#{@type}}
+    # Get the files for the bundle
+    def bundle_files
+      @bundle_files ||= ::Asset.manifest.select{|i| i.type == @type and i.bundle and !i.app}.map{|i| p? ? i.kpath : i.path}
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.
     def content(key = nil)
-      key ? (@cached ||= cached) : (@joined ||= joined)
+      (!key or !@compress) ? (@joined ||= joined) : (@cached ||= cached)
     end
 
     # The cached content
     def cached
       File.read(cache_path).tap{|f| return f if f} rescue nil
-
-      # Compress the files
       compressed.tap{|r| write_cache(r)}
     end
 
@@ -48,7 +39,12 @@ module Asset
 
     # Cache path
     def cache_path
-      @cache_path ||= File.join(::Asset.cache, %{#{@key}.#{@type}})
+      @cache_path ||= File.join(::Asset.cache, kext)
+    end
+
+    # Key and extension
+    def kext
+      @kext ||= %{#{@key}.#{@type}}
     end
 
     # Compressed joined files
@@ -63,7 +59,12 @@ module Asset
 
     # All files joined
     def joined
-      @joined ||= files(false).map{|f| File.read(File.join(::Asset.path, @type, f))}.join
+      @joined ||= files.map{|f| File.read(File.join(::Asset.path, @type, f))}.join
+    end
+
+    # Production mode?
+    def p?
+      ::Asset.mode == 'production'
     end
 
     # Print data

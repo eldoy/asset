@@ -42,11 +42,14 @@ js:
 # Example with options:
 css:
 - app.css:
+  # Compress = false will prevent the file from being compressed (default true)
   - compress: true
-  - bundle: false
+  # This will not be part of application.js if bundle = false (default true)
+  - bundle: true
 - themes/themes.css
 
 js:
+  # The same options apply to JS files
 - app.js:
   - bundle: false
 - lib/cookie.js

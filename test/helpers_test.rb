@@ -33,7 +33,6 @@ t = %{<script src="/assets/js/app.js"></script>
 <script src="/assets/js/lib/cookie.js"></script>}
 is tag, t
 
-
 test 'script tag production'
 
 ::Asset.mode = 'production'
@@ -76,8 +75,7 @@ test ' * application'
 
 tag = style_tag('application.css')
 
-t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">
-<link href="/assets/css/themes/themes.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t
 
 
