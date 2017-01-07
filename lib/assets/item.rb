@@ -9,7 +9,7 @@ module Asset
       @name = @path.rpartition('.')[0]
     end
 
-    # File? Or bundle?
+    # File? Not bundle?
     def file?
       @path !~ /^application\.(js|css)$/
     end
@@ -35,9 +35,7 @@ module Asset
 
     # The cached content
     def cached
-      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap do |f|
-        return f if f
-      end rescue nil
+      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap{|f| return f if f} rescue nil
 
       # Compress the files
       compressed.tap{|r| write_cache(r)}
@@ -65,7 +63,7 @@ module Asset
 
     # Print data
     def print
-      [:path, :type, :key, :name, :modified, :files, :content].each{|r| puts "#{r.upcase}: #{send(r).inspect}"}
+      [:path, :type, :key, :name, :modified, :files, :content].map{|r| "#{r.upcase}: #{send(r).inspect}"}.join("\n")
     end
 
   end
