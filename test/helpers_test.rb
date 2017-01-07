@@ -25,9 +25,9 @@ test ' * multiple'
 tag = script_tag('app.js', 'app.js')
 is tag, "#{t}\n#{t}"
 
-test ' * application'
+test ' * bundle'
 
-tag = script_tag('application.js')
+tag = script_tag('bundle.js')
 
 t = %{<script src="/assets/js/app.js"></script>
 <script src="/assets/js/lib/cookie.js"></script>}
@@ -48,11 +48,11 @@ test ' * multiple'
 tag = script_tag('app.js', 'app.js')
 is tag, "#{t}\n#{t}"
 
-test ' * application'
+test ' * bundle'
 
-tag = script_tag('application.js')
+tag = script_tag('bundle.js')
 
-t = %{<script src="/assets/js/application-dadd8868c1c1b0386c00135495cf1c10.js"></script>}
+t = %{<script src="/assets/js/bundle-b3b05d59c7a8c5709f4b6776f5a60907.js"></script>}
 is tag, t
 
 
@@ -71,9 +71,9 @@ test ' * multiple'
 tag = style_tag('app.css', 'app.css')
 is tag, "#{t}\n#{t}"
 
-test ' * application'
+test ' * bundle'
 
-tag = style_tag('application.css')
+tag = style_tag('bundle.css')
 
 t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t
@@ -94,9 +94,9 @@ test ' * multiple'
 tag = style_tag('app.css', 'app.css')
 is tag, "#{t}\n#{t}"
 
-test ' * application'
+test ' * bundle'
 
-tag = style_tag('application.css')
+tag = style_tag('bundle.css')
 
-t = %{<link href="/assets/css/application-ce14e1338524a028c5cad32411d1779a.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/bundle-54dc87ed34c1aeb75b0b905bb8c1cf4e.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t

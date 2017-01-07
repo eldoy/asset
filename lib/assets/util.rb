@@ -43,10 +43,10 @@ module Asset
             (h ? name['compress'] : true), (h ? name['bundle'] : true))
         end
 
-        # Insert the application bundle
+        # Insert the bundle
         manifest.insert(0, ::Asset::Item.new(
-          "application.#{type}", type,
-          digest("application.#{type}", max), max))
+          "bundle.#{type}", type,
+          digest("bundle.#{type}", max), max))
       end
       manifest
     end

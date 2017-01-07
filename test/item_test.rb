@@ -10,7 +10,7 @@ is m, :a? => Array
 is m.size, :gt => 2
 item = m.first
 is item, :a? => ::Asset::Item
-is item.path, 'application.js'
+is item.path, 'bundle.js'
 is item.key, :a? => String
 is item.modified, :a? => Time
 is item.bundle, nil

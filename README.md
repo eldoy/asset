@@ -19,10 +19,23 @@ helpers Asset::Router
 
 ### Settings
 ```ruby
-Asset.mode = ENV['RACK_ENV'] || 'development'
-Asset.path = APP_ASSETS rescue File.join(Dir.pwd, 'app', 'assets')
-Asset.cache = File.join(Dir.pwd, 'tmp')
-Asset.debug = false
+# Default is development
+@mode = ENV['RACK_ENV'] || 'development'
+
+# Where your assets live
+@path = File.join(Dir.pwd, 'app', 'assets')
+
+# Where to write the cache, default to APP_ROOT/tmp
+@cache = File.join(Dir.pwd, 'tmp')
+
+# Automatically bounce (404) for browser /favicon.ico requests
+@favicon = true
+
+# Send /robots.txt to a standard robots txt with reference to /sitemap.xml
+@robots = true
+
+# Debug option
+@debug = false
 ```
 
 ### Usage
@@ -44,7 +57,7 @@ css:
 - app.css:
   # Compress = false will prevent the file from being compressed (default true)
   - compress: true
-  # This will not be part of application.js if bundle = false (default true)
+  # This will not be part of the bundle.js if bundle = false (default true)
   - bundle: true
 - themes/themes.css
 
@@ -63,11 +76,11 @@ js:
 # Multiple
 <%= script_tag 'app.js', 'lib/cookies.js' %>
 
-# Bundle all files with 'application.js'
-<%= script_tag 'application.js' %>
+# Bundle all Javscript files with 'bundle.js'
+<%= script_tag 'bundle.js' %>
 
-# Bundle all files with 'application.css'
-<%= script_tag 'application.css' %>
+# Bundle all CSS files with 'bundle.css'
+<%= script_tag 'bundle.css' %>
 ```
 
 In development mode, all files will be printed. In production mode, you'll get only one file.

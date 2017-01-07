@@ -1,7 +1,7 @@
 require 'rack'
 require 'yaml'
-require 'uglifier'
-require 'tilt'
+autoload :Uglifier, 'uglifier'
+autoload :Tilt, 'tilt'
 
 # Asset packer, middleware and helpers
 # @homepage: https://github.com/fugroup/asset
@@ -10,10 +10,22 @@ require 'tilt'
 module Asset
   class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :debug; end
 
-  # Default is production
+  # Default is development
   @mode = ENV['RACK_ENV'] || 'development'
+
+  # Where your assets live
   @path = File.join(Dir.pwd, 'app', 'assets')
+
+  # Where to write the cache, default to APP_ROOT/tmp
   @cache = File.join(Dir.pwd, 'tmp')
+
+  # Automatically bounce (404) for browser /favicon.ico requests
+  @favicon = true
+
+  # Send /robots.txt to a standard robots txt with reference to /sitemap.xml
+  @robots = true
+
+  # Debug option
   @debug = false
 end
 

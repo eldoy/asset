@@ -36,11 +36,11 @@ module Asset
         found(item)
 
       # Bounce favicon requests
-      when /^\/favicon\.ico$/
+      when (::Asset.favicon and /^\/favicon\.ico$/)
         not_found
 
       # Return a standard robots.txt
-      when /^\/robots\.txt$/
+      when (::Asset.robots and /^\/robots\.txt$/)
         robots
 
       else

@@ -6,7 +6,7 @@ module Asset
     # Init
     def initialize(*args)
       @path, @type, @key, @modified, @compress, @bundle = args
-      @app = !!(@path =~ /^application\.(js|css)$/)
+      @app = !!(@path =~ /^bundle\.(js|css)$/)
       @name = @path.rpartition('.')[0]
       @kpath = "#{@name}-#{kext}"
     end
