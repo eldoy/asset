@@ -35,7 +35,7 @@ module Asset
 
     # The cached content
     def cached
-      File.read(File.join(::Asset.cache, %{#{@key}.#{@type}})).tap{|f| return f if f} rescue nil
+      File.read(cache_path).tap{|f| return f if f} rescue nil
 
       # Compress the files
       compressed.tap{|r| write_cache(r)}
@@ -43,12 +43,17 @@ module Asset
 
     # Store in cache
     def write_cache(r)
-      File.open(File.join(::Asset.cache, %{#{@key}.#{@type}}), 'w'){|f| f.write(r)}
+      File.open(cache_path, 'w'){|f| f.write(r)}
+    end
+
+    # Cache path
+    def cache_path
+      @cache_path ||= File.join(::Asset.cache, %{#{@key}.#{@type}})
     end
 
     # Compressed joined files
     def compressed
-      case @type
+      @compressed ||= case @type
       when 'css'
         Tilt.new('scss', :style => :compressed){ joined }.render rescue joined
       when 'js'
