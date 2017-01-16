@@ -51,5 +51,14 @@ module Asset
       manifest
     end
 
+    # Load images into memory
+    def self.load_images
+      # Store the path and the timestamp
+      images = Dir["#{::Asset.path}/images/**/*"].select{|f| File.file?(f)}.map do |i|
+        i =~ /\/images\/(.+)/; [$1, mtime("images/#{$1}").to_i]
+      end
+      Hash[*images.flatten]
+    end
+
   end
 end

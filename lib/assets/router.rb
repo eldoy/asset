@@ -2,11 +2,7 @@ module Asset
   class Router
 
     # Mime types
-    MIME = {
-      'js' => 'application/javascript; charset=UTF-8',
-      'css' => 'text/css; charset=UTF-8',
-      'txt' => 'text/plain; charset=UTF-8'
-    }
+    MIME = {'js' => 'application/javascript; charset=UTF-8', 'css' => 'text/css; charset=UTF-8', 'txt' => 'text/plain; charset=UTF-8'}
 
     # Init
     def initialize(app)

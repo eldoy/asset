@@ -1,3 +1,7 @@
+**Version 0.1.1** - *2017-01-16*
+
+- Moved image timestamps to startup
+
 **Version 0.1.0** - *2017-01-07*
 
 - Renamed application.js/css to bundle.js/css

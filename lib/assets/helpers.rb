@@ -17,8 +17,8 @@ module Asset
 
     # Image tags
     def image_tag(path)
-      b = ::Asset::Util.mtime("images/#{path}")
-      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{b ? "?#{b.to_i}" : ''}">} rescue path
+      b = ::Asset.images[path] rescue nil
+      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{b ? "?#{b}" : ''}">} rescue path
     end
 
     private

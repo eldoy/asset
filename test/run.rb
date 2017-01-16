@@ -9,6 +9,7 @@ sleep 1 # Wait for server
 begin
   start = Time.now
   [
+    'images',
     'router',
     'bonus',
     'helpers',
