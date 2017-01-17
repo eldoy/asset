@@ -52,7 +52,7 @@ test ' * bundle'
 
 tag = script_tag('bundle.js')
 
-t = %{<script src="/assets/js/bundle-b3b05d59c7a8c5709f4b6776f5a60907.js"></script>}
+t = %{<script src="/assets/js/bundle-9564d87b6d05447bc613ebd1a2d086e2.js"></script>}
 is tag, t
 
 

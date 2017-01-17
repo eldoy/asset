@@ -18,29 +18,27 @@ module Asset
 
     # Load manifest
     def self.load_manifest
-      list = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
+      list = Dir["#{Asset.path}/{css,js}/**/*"].select{|f| File.file?(f)}.map{|f| f.gsub(Asset.path + '/', '')}
       manifest = []
+      list.each do |file|
+        file =~ /(js|css)\/(.+)/
+        type, name = $1, $2
 
-      list.each do |type, files|
-        max = Time.new(0).utc
-        files.each do |name|
+        # Get the modified time of the asset
+        modified = mtime("#{type}/#{name}")
 
-          # Get the modified time of the asset
-          modified = mtime("#{type}/#{name}")
-
-          # Record max to know the latest change
-          max = modified if modified > max
-
-          # Loading manifest with items
-          manifest << ::Asset::Item.new(
-            name, type, digest(name, modified), modified)
-        end
-
-        # Insert the bundle
-        manifest.insert(0, ::Asset::Item.new(
-          "bundle.#{type}", type,
-          digest("bundle.#{type}", max), max))
+        # Loading manifest with items
+        manifest << ::Asset::Item.new(name, type, digest(name, modified), modified)
       end
+
+      # Insert the css bundle
+      max = manifest.select{|r| r.type == 'css'}.map{|r| r.modified}.max
+      manifest.insert(0, ::Asset::Item.new('bundle.css', 'css', digest('bundle.css', max), max))
+
+      # Insert the js bundle
+      max = manifest.select{|r| r.type == 'js'}.map{|r| r.modified}.max
+      manifest.insert(0, ::Asset::Item.new('bundle.js', 'js', digest('bundle.js', max), max))
+
       manifest
     end
 

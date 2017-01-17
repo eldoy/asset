@@ -18,7 +18,7 @@ module Asset
 
     # Get the files for the bundle
     def bundle_files
-      @bundle_files ||= ::Asset.manifest.select{|i| i.type == @type and !i.app}.map{|i| p? ? i.kpath : i.path}
+      @bundle_files ||= ::Asset.manifest.select{|i| ::Asset.bundle[type].include?(i.path) and i.type == @type and !i.app}.map{|i| p? ? i.kpath : i.path}
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.

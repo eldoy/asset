@@ -8,7 +8,7 @@ autoload :Tilt, 'tilt'
 # @author:   Vidar <vidar@fugroup.net>, Fugroup Ltd.
 # @license:  MIT, contributions are welcome.
 module Asset
-  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :images, :debug; end
+  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :debug; end
 
   # Default is development
   @mode = ENV['RACK_ENV'] || 'development'
@@ -34,6 +34,9 @@ require_relative 'assets/item'
 
 # Load the manifest
 ::Asset.manifest = ::Asset::Util.load_manifest
+
+# Load the bundle
+::Asset.bundle = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
 
 # Load the images
 ::Asset.images = ::Asset::Util.load_images
