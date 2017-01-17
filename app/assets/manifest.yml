@@ -2,23 +2,8 @@
 # Options are compress: true/false, bundle: true/false
 css:
 - app.css
-- themes/themes.css:
-  bundle: false
-  compress: false
+- themes/themes.css
 
 js:
 - app.js
 - lib/cookie.js
-
-
-# Example with options:
-# css:
-# - app.css:
-#   - compress: true
-#   - bundle: false
-# - themes/themes.css
-
-# js:
-# - app.js:
-#   - bundle: false
-# - lib/cookie.js

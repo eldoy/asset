@@ -25,22 +25,15 @@ module Asset
         max = Time.new(0).utc
         files.each do |name|
 
-          # Depending on the options, the name can be a string or a Hash
-          h = name.is_a?(Hash)
-
-          # Path looks like app.js or similar
-          path = h ? name.keys[0] : name
-
           # Get the modified time of the asset
-          modified = mtime("#{type}/#{path}")
+          modified = mtime("#{type}/#{name}")
 
           # Record max to know the latest change
           max = modified if modified > max
 
           # Loading manifest with items
           manifest << ::Asset::Item.new(
-            path, type, digest(path, modified), modified,
-            (h ? name['compress'] : true), (h ? name['bundle'] : true))
+            name, type, digest(name, modified), modified)
         end
 
         # Insert the bundle
