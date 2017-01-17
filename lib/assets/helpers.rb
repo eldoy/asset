@@ -1,6 +1,11 @@
 module Asset
   module Helpers
 
+    # Asset URL
+    def asset_url(path)
+      ::Asset.manifest.find{|i| i.path == path}.src rescue path
+    end
+
     # Script tags
     def script_tag(*paths)
       tag('js', *paths) do |src|
@@ -31,7 +36,8 @@ module Asset
         item = ::Asset.manifest.find{|i| i.path == path}
 
         # Src is same as path if item not found
-        item ? item.files.map{|src| yield(%{/assets/#{type}/#{src}})} : yield(path)
+        files = (item ? item.files : [path])
+        files.map{|src| yield(%{/assets/#{type}/#{src}})}
 
       end.flatten.join("\n")
     end

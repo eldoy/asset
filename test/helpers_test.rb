@@ -2,6 +2,20 @@ test 'Helpers'
 
 include ::Asset::Helpers
 
+::Asset.mode = 'development'
+
+test 'asset url'
+
+t = asset_url('app.js')
+is t, %{/assets/js/app.js}
+
+::Asset.mode = 'production'
+
+t = asset_url('app.js')
+is t, %{/assets/js/app-3e259351b6d47daf1d7c2567ce3914ab.js}
+
+::Asset.mode = 'development'
+
 test 'image tag'
 
 t = image_tag('bg.png')
@@ -77,6 +91,12 @@ tag = style_tag('bundle.css')
 
 t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">
 <link href="/assets/css/themes/themes.css" media="all" rel="stylesheet" type="text/css">}
+is tag, t
+
+tag = script_tag('bundle.js')
+
+t = %{<script src="/assets/js/app.js"></script>
+<script src="/assets/js/lib/cookie.js"></script>}
 is tag, t
 
 

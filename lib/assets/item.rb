@@ -16,6 +16,11 @@ module Asset
       (@app and !p?) ? bundle_files : [p? ? @kpath : @path]
     end
 
+    # Get the full path
+    def src
+      File.join('/assets', @type, (p? ? @kpath : @path))
+    end
+
     # Get the files for the bundle
     def bundle_files
       @bundle_files ||= ::Asset.manifest.select{|i| ::Asset.bundle[type].include?(i.path) and i.type == @type and !i.app}.map{|i| p? ? i.kpath : i.path}

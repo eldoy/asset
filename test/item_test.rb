@@ -4,7 +4,7 @@ test 'Item'
 
 m = ::Asset.manifest
 
-test '* application'
+test '* bundle'
 
 is m, :a? => Array
 is m.size, :gt => 2
@@ -23,6 +23,7 @@ test '* file'
 
 item = m.last
 is item.path, 'lib/cookie.js'
+is item.src, '/assets/js/lib/cookie.js'
 is item.key, :a? => String
 is item.modified, :a? => Time
 is item.files, :a? => Array
