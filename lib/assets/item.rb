@@ -1,11 +1,11 @@
 module Asset
   class Item
 
-    attr_accessor :path, :type, :key, :modified, :compress, :bundle, :app, :name, :kpath
+    attr_accessor :path, :type, :key, :modified, :app, :name, :kpath
 
     # Init
     def initialize(*args)
-      @path, @type, @key, @modified, @compress, @bundle = args
+      @path, @type, @key, @modified = args
       @app = !!(@path =~ /^bundle\.(js|css)$/)
       @name = @path.rpartition('.')[0]
       @kpath = "#{@name}-#{kext}"
@@ -18,12 +18,12 @@ module Asset
 
     # Get the files for the bundle
     def bundle_files
-      @bundle_files ||= ::Asset.manifest.select{|i| i.type == @type and i.bundle and !i.app}.map{|i| p? ? i.kpath : i.path}
+      @bundle_files ||= ::Asset.manifest.select{|i| i.type == @type and !i.app}.map{|i| p? ? i.kpath : i.path}
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.
     def content(key = nil)
-      (!key or !@compress) ? (@joined ||= joined) : (@cached ||= cached)
+      !key ? (@joined ||= joined) : (@cached ||= cached)
     end
 
     # The cached content

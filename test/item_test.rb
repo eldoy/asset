@@ -13,8 +13,6 @@ is item, :a? => ::Asset::Item
 is item.path, 'bundle.js'
 is item.key, :a? => String
 is item.modified, :a? => Time
-is item.bundle, nil
-is item.compress, nil
 is item.files, :a? => Array
 is item.files.size, :gt => 1
 ::Asset.mode = 'production'
@@ -27,8 +25,6 @@ item = m.last
 is item.path, 'lib/cookie.js'
 is item.key, :a? => String
 is item.modified, :a? => Time
-is item.bundle, true
-is item.compress, true
 is item.files, :a? => Array
 is item.files.size, 1
 ::Asset.mode = 'development'

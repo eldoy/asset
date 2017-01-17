@@ -41,11 +41,3 @@ is @body.split("\n").size, 1
 test 'not found, wrong md5'
 pull '/assets/css/app-a1888dbd56e058ff1d827a261c12702b.css'
 is @code, 404
-
-test 'compress false'
-
-item = ::Asset.manifest.find{|i| i.path == 'themes/themes.css'}
-pull "/assets/css/#{item.kpath}"
-
-is @code, 200
-is @body.split("\n").size, :gt => 1

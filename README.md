@@ -42,29 +42,13 @@ helpers Asset::Router
 ```yaml
 # Install your manifest file in APP_ROOT/app/assets/manifest.yml
 
-# Asset manifest. Only the files mentioned here will be available.
-# Options are compress: true/false, bundle: true/false
+# Asset manifest. Only the files mentioned here will be bundled.
 css:
 - app.css
 - themes/themes.css
 
 js:
 - app.js
-- lib/cookie.js
-
-# Example with options:
-css:
-- app.css:
-  # Compress = false will prevent the file from being compressed (default true)
-  - compress: true
-  # This will not be part of the bundle.js if bundle = false (default true)
-  - bundle: true
-- themes/themes.css
-
-js:
-  # The same options apply to JS files
-- app.js:
-  - bundle: false
 - lib/cookie.js
 ```
 

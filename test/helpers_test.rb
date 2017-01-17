@@ -75,7 +75,8 @@ test ' * bundle'
 
 tag = style_tag('bundle.css')
 
-t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">
+<link href="/assets/css/themes/themes.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t
 
 
