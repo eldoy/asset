@@ -13,7 +13,7 @@ module Asset
 
     # Get the files for this item
     def files(bundle = true)
-      (@app and bundle) ? bundle_files : [@path]
+      (@app and bundle) ? ::Asset.bundle[@type] : [@path]
     end
 
     # Get the sources for this item
@@ -24,11 +24,6 @@ module Asset
     # Get the full path
     def src
       File.join('/assets', @type, (p? ? @kpath : @path))
-    end
-
-    # Get the files for the bundle
-    def bundle_files
-      @bundle_files ||= ::Asset.manifest.select{|i| ::Asset.bundle[type].include?(i.path) and i.type == @type and !i.app}.map{|i| i.path}
     end
 
     # Get the content. Pass cache = false to fetch from disk instead of the cache.
