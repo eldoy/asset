@@ -25,7 +25,7 @@ module Asset
       b = ::Asset.images[path] rescue nil
       # Just slip through if the path starts with http(s) or //
       src = path =~ /^(http[s]?)?:?\/\// ? path : %{/assets/images/#{path}}
-      %{<img src="#{src}#{b ? "?#{b}" : ''}">} rescue path
+      %{<img src="#{src}#{b ? "?#{b}" : ''}">}
     end
 
     private
