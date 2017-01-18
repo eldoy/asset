@@ -37,7 +37,7 @@ module Asset
         item = ::Asset.manifest.find{|i| i.path == path}
 
         # Src is same as path if item not found
-        item ? item.files.map{|f| yield(asset_url(f))} : yield(path)
+        item ? item.sources.map{|f| yield(asset_url(f))} : yield(path)
       end.flatten.join("\n")
     end
 

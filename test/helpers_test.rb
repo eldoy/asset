@@ -83,8 +83,12 @@ is tag, "#{t}\n#{t}"
 test ' * bundle'
 
 tag = script_tag('bundle.js')
-
 t = %{<script src="/assets/js/bundle-9564d87b6d05447bc613ebd1a2d086e2.js"></script>}
+is tag, t
+
+test '** should not write digest directly'
+tag = script_tag('bundle-9564d87b6d05447bc613ebd1a2d086e2.js')
+t = %{<script src="bundle-9564d87b6d05447bc613ebd1a2d086e2.js"></script>}
 is tag, t
 
 
@@ -98,10 +102,16 @@ tag = style_tag('app.css')
 t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t
 
+tag = style_tag('themes/large-badges.css')
+t = %{<link href="/assets/css/themes/large-badges.css" media="all" rel="stylesheet" type="text/css">}
+is tag, t
+
 test ' * multiple'
 
 tag = style_tag('app.css', 'app.css')
+t = %{<link href="/assets/css/app.css" media="all" rel="stylesheet" type="text/css">}
 is tag, "#{t}\n#{t}"
+
 
 test ' * bundle'
 
@@ -137,5 +147,5 @@ test ' * bundle'
 
 tag = style_tag('bundle.css')
 
-t = %{<link href="/assets/css/bundle-54dc87ed34c1aeb75b0b905bb8c1cf4e.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/bundle-e91f9f61352f603d27d25cfe44234bb8.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t

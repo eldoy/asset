@@ -15,8 +15,10 @@ is item.key, :a? => String
 is item.modified, :a? => Time
 is item.files, :a? => Array
 is item.files.size, :gt => 1
+is item.sources, :a? => Array
 ::Asset.mode = 'production'
-is item.files.size, 1
+is item.files.size, 2
+is item.sources.size, 1
 ::Asset.mode = 'development'
 
 test '* file'
@@ -28,6 +30,8 @@ is item.key, :a? => String
 is item.modified, :a? => Time
 is item.files, :a? => Array
 is item.files.size, 1
+is item.sources, :a? => Array
+is item.sources.size, 1
 ::Asset.mode = 'development'
 is item.files.size, 1
 

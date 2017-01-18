@@ -20,7 +20,7 @@ module Asset
       # Match /assets?/:type/path
       when /^(\/assets)?\/(js|css)\/(.+)/
         type, path = $2, $3
-        path =~ /-([a-f0-9]{1,32})/
+        path =~ /-([a-f0-9]{1,32})\.(css|js)$/
         path.gsub!("-#{@key}", '') if (@key = $1)
 
         # Find the item

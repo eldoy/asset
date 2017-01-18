@@ -12,8 +12,13 @@ module Asset
     end
 
     # Get the files for this item
-    def files
-      (@app and !p?) ? bundle_files : [@path]
+    def files(bundle = true)
+      (@app and bundle) ? bundle_files : [@path]
+    end
+
+    # Get the sources for this item
+    def sources
+      files(!p?)
     end
 
     # Get the full path

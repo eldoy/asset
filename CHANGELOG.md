@@ -1,6 +1,10 @@
+**Version 0.1.3** - *2017-01-18*
+
+- Added more greedy regex for files with dashes
+
 **Version 0.1.2** - *2017-01-18*
 
-- Removed old options, manifest is now only for bundle.
+- Removed old options, manifest is now only for bundle
 
 **Version 0.1.1** - *2017-01-16*
 
