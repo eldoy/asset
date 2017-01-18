@@ -12,7 +12,7 @@ is t, %{/assets/js/app.js}
 ::Asset.mode = 'production'
 
 t = asset_url('app.js')
-is t, %{/assets/js/app-3e259351b6d47daf1d7c2567ce3914ab.js}
+is t, %{/assets/js/app-d630150a59e7a216f5eb114657c05af5.js}
 
 ::Asset.mode = 'development'
 
@@ -72,7 +72,7 @@ test 'script tag production'
 test ' * single'
 
 tag = script_tag('app.js')
-t = %{<script src="/assets/js/app-3e259351b6d47daf1d7c2567ce3914ab.js"></script>}
+t = %{<script src="/assets/js/app-d630150a59e7a216f5eb114657c05af5.js"></script>}
 is tag, t
 
 test ' * multiple'
@@ -83,7 +83,7 @@ is tag, "#{t}\n#{t}"
 test ' * bundle'
 
 tag = script_tag('bundle.js')
-t = %{<script src="/assets/js/bundle-9564d87b6d05447bc613ebd1a2d086e2.js"></script>}
+t = %{<script src="/assets/js/bundle-d2c29c088339dd75bf0acdd09d0bfbad.js"></script>}
 is tag, t
 
 test '** should not write digest directly'
@@ -135,7 +135,7 @@ test 'style tag production'
 test ' * single'
 
 tag = style_tag('app.css')
-t = %{<link href="/assets/css/app-562b912c572fd5bb67b0de2257b82acb.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/app-447516f012d689344167c163c004269f.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t
 
 test ' * multiple'
@@ -147,5 +147,5 @@ test ' * bundle'
 
 tag = style_tag('bundle.css')
 
-t = %{<link href="/assets/css/bundle-e91f9f61352f603d27d25cfe44234bb8.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/bundle-78b542f694d294acea12d273b1657455.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t

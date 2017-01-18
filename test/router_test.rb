@@ -33,7 +33,7 @@ is @code, 404
 test 'found, md5'
 
 pull '/assets/css/themes/large-badges-3fd1a72faf4738f83cbf5ed27ddc2cfb.css'
-is @code, 200
+is @code, 404
 
 # Find item
 item = ::Asset.manifest.find{|i| i.path == 'app.js'}
