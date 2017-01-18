@@ -27,10 +27,10 @@ t = image_tag(url)
 is t, %{<img src="#{url}">}
 
 t = image_tag('bg.png')
-is t, %{<img src="/assets/images/bg.png?1483144362">}
+is t, %{<img src="/images/bg.png?1483144362">}
 
 t = image_tag('logo/logo.png')
-is t, %{<img src="/assets/images/logo/logo.png?1483144362">}
+is t, %{<img src="/images/logo/logo.png?1483144362">}
 
 test 'script tag development'
 

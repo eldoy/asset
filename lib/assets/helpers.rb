@@ -22,10 +22,16 @@ module Asset
 
     # Image tags
     def image_tag(path)
-      b = ::Asset.images[path] rescue nil
+      %{<img src="#{image_url(path)}">}
+    end
+
+    # Image URL
+    def image_url(path)
       # Just slip through if the path starts with http(s) or //
-      src = path =~ /^(http[s]?)?:?\/\// ? path : %{/assets/images/#{path}}
-      %{<img src="#{src}#{b ? "?#{b}" : ''}">}
+      src = path =~ /^(http[s]?)?:?\/\// ? path : %{/images/#{path}}
+
+      # Return the path with timestamp if possible
+      %{#{src}#{(b = (::Asset.images[path] rescue nil)) ? "?#{b}" : ''}}
     end
 
     private
