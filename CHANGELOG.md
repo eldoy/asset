@@ -1,3 +1,7 @@
+**Version 0.1.2** - *2017-01-18*
+
+- Removed old options, manifest is now only for bundle.
+
 **Version 0.1.1** - *2017-01-16*
 
 - Moved image timestamps to startup
