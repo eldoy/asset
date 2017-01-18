@@ -1,3 +1,7 @@
+**Version 0.1.5** - *2017-01-18*
+
+- Correct load order for bundle
+
 **Version 0.1.4** - *2017-01-18*
 
 - Moved images to /images instead of /assets/images
