@@ -1,3 +1,7 @@
+**Version 0.1.6** - *2017-01-18*
+
+- Reading the file content instead of timestamp for cache key
+
 **Version 0.1.5** - *2017-01-18*
 
 - Correct load order for bundle
