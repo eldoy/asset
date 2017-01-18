@@ -42,4 +42,5 @@ require_relative 'assets/item'
 ::Asset.images = ::Asset::Util.load_images
 
 require_relative 'assets/helpers'
+require_relative 'assets/filters'
 require_relative 'assets/router'

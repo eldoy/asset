@@ -19,6 +19,7 @@ class App < Sinatra::Base
 
     # Liquid setup
     Liquid::Template.file_system = Liquid::LocalFileSystem.new(APP_VIEWS)
+    Liquid::Template.register_filter(::Asset::Filters)
 
     # Set up loggers and tmp files
     Dir.mkdir('./tmp') unless File.exists?('./tmp')
@@ -37,6 +38,10 @@ class App < Sinatra::Base
 
   get('/') do
     erb(:index)
+  end
+
+  get('/liquid') do
+    liquid(:index)
   end
 
   # Default not found page

@@ -18,6 +18,14 @@ is t, %{/assets/js/app-3e259351b6d47daf1d7c2567ce3914ab.js}
 
 test 'image tag'
 
+url = 'http://fugroup.net/images/fugroup_logo1.png'
+t = image_tag(url)
+is t, %{<img src="#{url}">}
+
+url = '//fugroup.net/images/fugroup_logo1.png'
+t = image_tag(url)
+is t, %{<img src="#{url}">}
+
 t = image_tag('bg.png')
 is t, %{<img src="/assets/images/bg.png?1483144362">}
 
@@ -29,6 +37,16 @@ test 'script tag development'
 ::Asset.mode = 'development'
 
 test ' * single'
+
+url = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js'
+tag = script_tag(url)
+t = %{<script src="#{url}"></script>}
+is tag, t
+
+url = '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js'
+tag = script_tag(url)
+t = %{<script src="#{url}"></script>}
+is tag, t
 
 tag = script_tag('app.js')
 t = %{<script src="/assets/js/app.js"></script>}

@@ -23,7 +23,9 @@ module Asset
     # Image tags
     def image_tag(path)
       b = ::Asset.images[path] rescue nil
-      %{<img src="/assets/images/#{CGI.escapeHTML(path)}#{b ? "?#{b}" : ''}">} rescue path
+      # Just slip through if the path starts with http(s) or //
+      src = path =~ /^(http[s]?)?:?\/\// ? path : %{/assets/images/#{path}}
+      %{<img src="#{src}#{b ? "?#{b}" : ''}">} rescue path
     end
 
     private
@@ -36,9 +38,11 @@ module Asset
         item = ::Asset.manifest.find{|i| i.path == path}
 
         # Src is same as path if item not found
-        files = (item ? item.files : [path])
-        files.map{|src| yield(%{/assets/#{type}/#{src}})}
-
+        if item
+          item.files.map{|src| yield(%{/assets/#{type}/#{src}})}
+        else
+          yield(path)
+        end
       end.flatten.join("\n")
     end
 
