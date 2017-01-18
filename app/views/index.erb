@@ -23,6 +23,13 @@
     <aside><%= MODE %> mode.</aside>
     <script src="/assets/js/app.js?hello=test"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js"></script>
-
+    <%= script_tag "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js" %>
+    <%= script_tag "app.js" %>
+    <%= script_tag "/assets/js/app.js" %>
+    <%= script_tag "bundle.js" %>
+    <% Asset.mode = 'production' %>
+    <%= script_tag "app.js" %>
+    <%= script_tag "/assets/js/app.js" %>
+    <%= script_tag "bundle.js" %>
   </body>
 </html>

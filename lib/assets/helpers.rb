@@ -33,16 +33,11 @@ module Asset
     # Build the tags
     def tag(type, *paths, &block)
       paths.map do |path|
-
         # Yield the source back to the tag builder
         item = ::Asset.manifest.find{|i| i.path == path}
 
         # Src is same as path if item not found
-        if item
-          item.files.map{|src| yield(%{/assets/#{type}/#{src}})}
-        else
-          yield(path)
-        end
+        item ? item.files.map{|f| yield(asset_url(f))} : yield(path)
       end.flatten.join("\n")
     end
 
