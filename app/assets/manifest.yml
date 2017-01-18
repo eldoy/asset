@@ -1,5 +1,4 @@
-# Asset manifest. Only the files mentioned here will be available.
-# Options are compress: true/false, bundle: true/false
+# Asset manifest. Only the files mentioned here will be bundled.
 css:
 - app.css
 - themes/themes.css
