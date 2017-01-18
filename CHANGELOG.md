@@ -1,3 +1,7 @@
+**Version 0.1.4** - *2017-01-18*
+
+- Moved images to /images instead of /assets/images
+
 **Version 0.1.3** - *2017-01-18*
 
 - Added more greedy regex for files with dashes
