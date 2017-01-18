@@ -69,7 +69,7 @@ module Asset
 
     # Production mode?
     def p?
-      ::Asset.mode == 'production'
+      %w[staging production].include?(::Asset.mode)
     end
 
     # Print data
