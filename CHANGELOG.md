@@ -1,3 +1,7 @@
+**Version 0.1.7** - *2017-01-18*
+
+- Production mode also for staging
+
 **Version 0.1.6** - *2017-01-18*
 
 - Reading the file content instead of timestamp for cache key
