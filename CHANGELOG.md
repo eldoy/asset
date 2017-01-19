@@ -1,3 +1,8 @@
+**Version 0.1.8** - *2017-01-19*
+
+- Removed tilt as dependency, using Sass only
+- Fixed cache disk writing
+
 **Version 0.1.7** - *2017-01-18*
 
 - Production mode also for staging

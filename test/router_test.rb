@@ -35,11 +35,18 @@ test 'found, md5'
 pull '/assets/css/themes/large-badges-3fd1a72faf4738f83cbf5ed27ddc2cfb.css'
 is @code, 404
 
-# Find item
+test '* find js'
 item = ::Asset.manifest.find{|i| i.path == 'app.js'}
 pull "/assets/js/#{item.kpath}"
 is @code, 200
 is @body.split("\n").size, 1
+
+test '* find css'
+item = ::Asset.manifest.find{|i| i.path == 'app.css'}
+pull "/assets/css/#{item.kpath}"
+is @code, 200
+is @body.split("\n").size, 1
+
 
 test 'not found, wrong md5'
 pull '/assets/css/app-a1888dbd56e058ff1d827a261c12702b.css'

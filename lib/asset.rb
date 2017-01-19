@@ -1,13 +1,15 @@
 require 'rack'
 require 'yaml'
-autoload :Uglifier, 'uglifier'
-autoload :Tilt, 'tilt'
 
 # Asset packer, middleware and helpers
 # @homepage: https://github.com/fugroup/asset
 # @author:   Vidar <vidar@fugroup.net>, Fugroup Ltd.
 # @license:  MIT, contributions are welcome.
 module Asset
+
+  autoload :Uglifier, 'uglifier'
+  autoload :Sass, 'sass'
+
   class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :debug; end
 
   # Default is development
