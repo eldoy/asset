@@ -46,12 +46,5 @@ require_relative 'assets/router'
 # Run a listener to automatically reload the assets on change
 if ::Asset.listener and ::Asset.mode == 'development'
   autoload :Listen, 'listen'
-
-  if defined?(Listen)
-    # Reload assets on change
-    listener = Listen.to(::Asset.path) do |modified, added, removed|
-      ::Asset::Util.setup!
-    end
-    listener.start
-  end
+  Listen.to(::Asset.path){|m, a, r| ::Asset::Util.setup!}.start if defined?(Listen)
 end
