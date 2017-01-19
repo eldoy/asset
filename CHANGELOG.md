@@ -1,3 +1,7 @@
+**Version 0.1.9** - *2017-01-19*
+
+- Added auto-reload with listen gem for development mode
+
 **Version 0.1.8** - *2017-01-19*
 
 - Removed tilt as dependency, using Sass only

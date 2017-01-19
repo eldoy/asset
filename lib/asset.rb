@@ -10,7 +10,7 @@ module Asset
   autoload :Uglifier, 'uglifier'
   autoload :Sass, 'sass'
 
-  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :debug; end
+  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :listener, :debug; end
 
   # Default is development
   @mode = ENV['RACK_ENV'] || 'development'
@@ -27,6 +27,9 @@ module Asset
   # Send /robots.txt to a standard robots txt with reference to /sitemap.xml
   @robots = true
 
+  # Reset the assets on change in development mode
+  @listener = true
+
   # Debug option
   @debug = false
 end
@@ -34,15 +37,21 @@ end
 require_relative 'assets/util'
 require_relative 'assets/item'
 
-# Load the manifest
-::Asset.manifest = ::Asset::Util.load_manifest
-
-# Load the bundle
-::Asset.bundle = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
-
-# Load the images
-::Asset.images = ::Asset::Util.load_images
+::Asset::Util.setup!
 
 require_relative 'assets/helpers'
 require_relative 'assets/filters'
 require_relative 'assets/router'
+
+# Run a listener to automatically reload the assets on change
+if ::Asset.listener and ::Asset.mode == 'development'
+  autoload :Listen, 'listen'
+
+  if defined?(Listen)
+    # Reload assets on change
+    listener = Listen.to(::Asset.path) do |modified, added, removed|
+      ::Asset::Util.setup!
+    end
+    listener.start
+  end
+end

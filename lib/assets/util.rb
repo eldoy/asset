@@ -1,6 +1,18 @@
 module Asset
   class Util
 
+    # Setup assets
+    def self.setup!
+      # Load the manifest
+      ::Asset.manifest = load_manifest
+
+      # Load the bundle
+      ::Asset.bundle = YAML.load_file(File.join(::Asset.path, 'manifest.yml'))
+
+      # Load the images
+      ::Asset.images = load_images
+    end
+
     # Get timestamp
     def self.mtime(path)
       File.mtime(asset_path(path)).utc
