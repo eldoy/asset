@@ -1,3 +1,8 @@
+**Version 0.1.10** - *2017-01-22*
+
+- Included rubyracer as dependency, fixed Uglifier not working
+- Refactored router, now 404 only if item not found
+
 **Version 0.1.9** - *2017-01-19*
 
 - Added auto-reload with listen gem for development mode
