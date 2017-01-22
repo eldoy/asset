@@ -20,11 +20,11 @@ test 'found, no md5'
 
 pull '/assets/js/app.js'
 is @code, 200
-is @body.split("\n").size, 1
+is @body.split("\n").size, 5
 
 pull '/js/app.js'
 is @code, 200
-is @body.split("\n").size, 1
+is @body.split("\n").size, 5
 
 test 'not found, no md5'
 

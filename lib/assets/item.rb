@@ -26,14 +26,14 @@ module Asset
       File.join('/assets', @type, (p? ? @kpath : @path))
     end
 
-    # Get the content. Will be cached and compressed
-    def content
-      p? ? cached : joined
+    # Get the content, will be compressed in production typically.
+    def content(compress = p?)
+      compress ? cached : joined
     end
 
     # The cached content
     def cached
-      @cached ||= (read_cache || compressed.tap{|r| write_cache(r)})
+      @cached ||= (read_cache || write_cache)
     end
 
     # Read cache
@@ -42,8 +42,8 @@ module Asset
     end
 
     # Store in cache
-    def write_cache(r)
-      File.open(cache_path, 'w'){|f| f.write(r)}
+    def write_cache
+      compressed.tap{|c| File.open(cache_path, 'w'){|f| f.write(c)}}
     end
 
     # Cache path
@@ -58,11 +58,11 @@ module Asset
 
     # Compressed joined files
     def compressed
-      case @type
+      @compressed ||= case @type
       when 'css'
-        Sass::Engine.new(joined, :syntax => :scss, :cache => false, :style => :compressed).render
+        Sass::Engine.new(joined, :syntax => :scss, :cache => false, :style => :compressed).render rescue joined
       when 'js'
-        Uglifier.compile(joined, :mangle => false)
+        Uglifier.compile(joined, :mangle => false) rescue joined
       end
     end
 
