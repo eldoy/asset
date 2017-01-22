@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'rack', '>= 0'
   s.add_runtime_dependency 'sass', '>= 0'
+  s.add_runtime_dependency 'therubyracer', '>= 0'
   s.add_runtime_dependency 'uglifier', '>= 0'
 
   s.add_development_dependency 'sinatra', '>= 0'
