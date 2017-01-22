@@ -62,7 +62,7 @@ module Asset
       when 'css'
         Sass::Engine.new(joined, :syntax => :scss, :cache => false, :style => :compressed).render rescue joined
       when 'js'
-        Uglifier.compile(joined, :mangle => false) rescue joined
+        Uglifier.compile(joined, :mangle => false, :comments => :none) rescue joined
       end
     end
 
