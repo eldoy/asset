@@ -1,7 +1,9 @@
 module Asset
+  # The Router class is a small Rack middleware that matches the asset URLs
+  # and serves the content, compressed if you are in production mode.
   class Router
 
-    # Mime types
+    # Mime types for responses
     MIME = {'js' => 'application/javascript; charset=UTF-8', 'css' => 'text/css; charset=UTF-8', 'txt' => 'text/plain; charset=UTF-8'}
 
     # Init
@@ -19,17 +21,18 @@ module Asset
 
       # Match /assets?/:type/path
       when /^(\/assets)?\/(js|css)\/(.+)/
+        # Extract type and path
         type, path = $2, $3
-        path =~ /-([a-f0-9]{1,32})\.(css|js)$/
+
+        # Extract digest key if any
+        path =~ /-([a-f0-9]{32})\.(css|js)$/
         path.gsub!("-#{@key}", '') if (@key = $1)
 
         # Find the item
         item = ::Asset.manifest.find{|i| i.path == path and i.type == type}
 
-        # Not found if no item, wrong key or no content
-        return not_found if !item or (@key and @key != item.key) or !item.content(@key)
-
-        found(item)
+        # Return the content or not found
+        item ? found(item) : not_found
 
       # Bounce favicon requests
       when (::Asset.favicon and /^\/favicon\.ico$/)
@@ -50,11 +53,11 @@ module Asset
     # Found
     def found(item)
       [ 200, {'Content-Type' => MIME[item.type],
-        'Content-Length' => item.content(@key).size,
+        'Content-Length' => item.content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,
         'Last-Modified' => item.modified.utc.rfc2822
-        }, [item.content(@key)]]
+        }, [item.content]]
     end
 
     # Not found

@@ -26,14 +26,19 @@ module Asset
       File.join('/assets', @type, (p? ? @kpath : @path))
     end
 
-    # Get the content. Pass key = false to fetch from disk instead of the cache.
-    def content(key = nil)
-      key ? (@cached ||= cached) : (@joined ||= joined)
+    # Get the content. Will be cached and compressed
+    def content
+      p? ? cached : joined
     end
 
     # The cached content
     def cached
-      return File.read(cache_path) rescue compressed.tap{|r| write_cache(r)}
+      @cached ||= (read_cache || compressed.tap{|r| write_cache(r)})
+    end
+
+    # Read cache
+    def read_cache
+      File.read(cache_path) rescue nil
     end
 
     # Store in cache
@@ -53,11 +58,11 @@ module Asset
 
     # Compressed joined files
     def compressed
-      @compressed ||= case @type
+      case @type
       when 'css'
-        Sass::Engine.new(joined, :syntax => :scss, :cache => false, :style => :compressed).render rescue joined
+        Sass::Engine.new(joined, :syntax => :scss, :cache => false, :style => :compressed).render
       when 'js'
-        Uglifier.compile(joined, {}) rescue joined
+        Uglifier.compile(joined, {})
       end
     end
 

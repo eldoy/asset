@@ -38,5 +38,9 @@ is item.files.size, 1
 test '* content'
 
 # Find item
-is item.content(item.key), :a? => String
-is item.content(item.key).split("\n").size, 1
+is item.content, :a? => String
+is item.content.split("\n").size, 26
+
+::Asset.mode = 'production'
+is item.content, :a? => String
+is item.content.split("\n").size, 1

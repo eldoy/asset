@@ -6,20 +6,20 @@ require 'yaml'
 # @author:   Vidar <vidar@fugroup.net>, Fugroup Ltd.
 # @license:  MIT, contributions are welcome.
 module Asset
-
   autoload :Uglifier, 'uglifier'
   autoload :Sass, 'sass'
 
   class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :listener, :debug; end
 
   # Default is development
-  @mode = ENV['RACK_ENV'] || 'development'
+  @mode = ENV['RACK_ENV'] || 'production'
 
   # Where your assets live
   @path = File.join(Dir.pwd, 'app', 'assets')
 
-  # Where to write the cache, default to APP_ROOT/tmp
-  @cache = File.join(Dir.pwd, 'tmp')
+  # Where to write the cache, default to /tmp
+  # Set to APP_ROOT: @cache = File.join(Dir.pwd, 'tmp')
+  @cache = '/tmp'
 
   # Automatically bounce (404) for browser /favicon.ico requests
   @favicon = true
@@ -45,6 +45,9 @@ require_relative 'assets/router'
 
 # Run a listener to automatically reload the assets on change
 if ::Asset.listener and ::Asset.mode == 'development'
-  autoload :Listen, 'listen'
-  Listen.to(::Asset.path){|m, a, r| ::Asset::Util.setup!}.start if defined?(Listen)
+  begin
+    require 'listen'
+    Listen.to(::Asset.path){|m, a, r| ::Asset::Util.setup!}.start if defined?(Listen)
+  rescue LoadError
+  end
 end

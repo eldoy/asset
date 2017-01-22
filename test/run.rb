@@ -3,7 +3,7 @@ require './config/boot'
 include Futest::Helpers
 
 # Wipe cache
-Pathname.new(::Asset.cache).children.each{|p| p.unlink}
+Pathname.new(::Asset.cache).children.each{|p| p.unlink if p.extname =~ /\.(css|js)$/}
 
 sleep 1 # Wait for server
 @host = 'http://localhost:4000'
