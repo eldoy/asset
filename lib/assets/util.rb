@@ -64,7 +64,7 @@ module Asset
     # Load images into memory
     def self.load_images
       # Store the path and the timestamp
-      images = Dir["#{::Asset.path}/images/**/*"].select{|f| File.file?(f)}.map do |i|
+      images = Dir["#{::Asset.path}/images/**{,/*/**}/*.*"].map do |i|
         i =~ /\/images\/(.+)/; [$1, mtime("images/#{$1}").to_i]
       end
       Hash[*images.flatten]
