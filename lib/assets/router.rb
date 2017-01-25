@@ -24,9 +24,8 @@ module Asset
         # Extract type and path
         type, path = $2, $3
 
-        # Extract digest key if any
-        path =~ /-([a-f0-9]{32})\.(css|js)$/
-        path.gsub!("-#{@key}", '') if (@key = $1)
+        # Extract digest key and remove from path
+        path.gsub!("-#{@key = $1}", '') if path =~ /-([a-f0-9]{32})\.(css|js)$/
 
         # Find the item
         item = ::Asset.manifest.find{|i| i.path == path and i.type == type}
