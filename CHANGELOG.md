@@ -1,3 +1,7 @@
+**Version 0.1.11** - *2017-01-25*
+
+- Assets and images now follow symlinks
+
 **Version 0.1.10** - *2017-01-22*
 
 - Included rubyracer as dependency, fixed Uglifier now working
