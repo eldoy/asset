@@ -4,6 +4,11 @@ test 'Item'
 
 m = ::Asset.manifest
 
+test '* symlinks'
+
+item = Asset.manifest.find{|r| r.path == 'shared/shared.js'}
+is item, :a? => Asset::Item
+
 test '* bundle'
 
 is m, :a? => Array
@@ -23,7 +28,7 @@ is item.sources.size, 1
 
 test '* file'
 
-item = m.last
+item = m[-2]
 is item.path, 'lib/cookie.js'
 is item.src, '/assets/js/lib/cookie.js'
 is item.key, :a? => String
