@@ -83,7 +83,7 @@ is tag, "#{t}\n#{t}"
 test ' * bundle'
 
 tag = script_tag('bundle.js')
-t = %{<script src="/assets/js/bundle-e9ffbd547962d1cfaecc668d0eab6008.js"></script>}
+t = %{<script src="/assets/js/bundle-d2c29c088339dd75bf0acdd09d0bfbad.js"></script>}
 is tag, t
 
 test '** should not write digest directly'
@@ -147,5 +147,5 @@ test ' * bundle'
 
 tag = style_tag('bundle.css')
 
-t = %{<link href="/assets/css/bundle-8bd093d33d09e058ab12f6d6d00545b7.css" media="all" rel="stylesheet" type="text/css">}
+t = %{<link href="/assets/css/bundle-78b542f694d294acea12d273b1657455.css" media="all" rel="stylesheet" type="text/css">}
 is tag, t

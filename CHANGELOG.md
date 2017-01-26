@@ -1,3 +1,7 @@
+**Version 0.1.12** - *2017-01-26*
+
+- Reverted symlinks, assets must be file
+
 **Version 0.1.11** - *2017-01-25*
 
 - Assets and images now follow symlinks

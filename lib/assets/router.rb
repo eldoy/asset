@@ -52,8 +52,7 @@ module Asset
     # Found
     def found(item)
       content = item.content(!!@key)
-      [ 200, {
-        'Content-Type' => MIME[item.type],
+      [ 200, {'Content-Type' => MIME[item.type],
         'Content-Length' => content.size,
         'Cache-Control' => 'max-age=86400, public',
         'Expires' => (Time.now + 86400*30).utc.rfc2822,

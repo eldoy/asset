@@ -35,7 +35,7 @@ module Asset
     def self.load_manifest
       manifest = []
 
-      Dir["#{Asset.path}/{css,js}/**{,/*/**}/*.{css,js}"].each do |file|
+      Dir["#{Asset.path}/{css,js}/**/*.{css,js}"].each do |file|
         # Extract type and name
         file =~ /(js|css)\/(.+)$/; type, name = $1, $2
 
@@ -64,10 +64,10 @@ module Asset
     # Load images into memory
     def self.load_images
       # Store the path and the timestamp
-      images = Dir["#{::Asset.path}/images/**{,/*/**}/*.*"].map do |i|
+      img = Dir["#{::Asset.path}/images/**/*.*"].map do |i|
         i =~ /\/images\/(.+)/; [$1, mtime("images/#{$1}").to_i]
       end
-      Hash[*images.flatten]
+      Hash[*img.flatten]
     end
 
   end
