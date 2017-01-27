@@ -1,3 +1,7 @@
+**Version 0.1.14** - *2017-01-27*
+
+- Setting bundle last modified to max bundle modified time
+
 **Version 0.1.13** - *2017-01-27*
 
 - Setting bundle last modified to boot time

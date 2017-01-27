@@ -44,11 +44,14 @@ module Asset
 
     # Load bundles for js and css
     def self.load_bundle(type)
-      # Find keys for the cache key (digest)
-      keys = ::Asset.manifest.select{|r| r.type == type}.map(&:key).join
+      # Find the items
+      items = ::Asset.manifest.select{|r| r.type == type}
+
+      # Find keys for digest and max modified time
+      keys, max = items.map(&:key).join, items.map(&:modified).max
 
       # Insert the bundle into the manifest
-      ::Asset.manifest.insert(0, ::Asset::Item.new("bundle.#{type}", type, digest(keys), Time.now.utc))
+      ::Asset.manifest.insert(0, ::Asset::Item.new("bundle.#{type}", type, digest(keys), max))
     end
 
     # Load images into memory
