@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'asset'
-  s.version     = '0.1.12'
-  s.date        = '2017-01-26'
+  s.version     = '0.1.13'
+  s.date        = '2017-01-27'
   s.summary     = "Compress and serve your CSS and JS assets automatically"
   s.description = "The only thing you need for your assets."
   s.authors     = ["Fugroup Limited"]

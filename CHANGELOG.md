@@ -1,3 +1,7 @@
+**Version 0.1.13** - *2017-01-26*
+
+- Setting bundle last modified to boot time
+
 **Version 0.1.12** - *2017-01-26*
 
 - Reverted symlinks, assets must be file

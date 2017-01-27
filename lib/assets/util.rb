@@ -33,32 +33,22 @@ module Asset
 
     # Load manifest
     def self.load_manifest
-      manifest = []
-
-      Dir["#{Asset.path}/{css,js}/**/*.{css,js}"].each do |file|
+      Dir["#{Asset.path}/{css,js}/**/*.*"].map do |f|
         # Extract type and name
-        file =~ /(js|css)\/(.+)$/; type, name = $1, $2
-
-        # Get the modified time of the asset
-        modified = mtime("#{type}/#{name}")
+        f =~ /(js|css)\/(.+)$/; type, name = $1, $2
 
         # Loading manifest with items
-        manifest << ::Asset::Item.new(name, type, digest(File.read(file)), modified)
+        ::Asset::Item.new(name, type, digest(File.read(f)), mtime("#{type}/#{name}"))
       end
-
-      manifest
     end
 
     # Load bundles for js and css
     def self.load_bundle(type)
-      # Insert the bundle
-      a = ::Asset.manifest.select{|r| r.type == type}
-
-      # Get the max modified date and the keys
-      max, keys = a.map{|r| r.modified}.max, a.map{|r| r.key}.join
+      # Find keys for the cache key (digest)
+      keys = ::Asset.manifest.select{|r| r.type == type}.map(&:key).join
 
       # Insert the bundle into the manifest
-      ::Asset.manifest.insert(0, ::Asset::Item.new("bundle.#{type}", type, digest(keys), max))
+      ::Asset.manifest.insert(0, ::Asset::Item.new("bundle.#{type}", type, digest(keys), Time.now.utc))
     end
 
     # Load images into memory
