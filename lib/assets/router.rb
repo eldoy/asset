@@ -54,8 +54,8 @@ module Asset
       content = item.content(!!@key)
       [ 200, {'Content-Type' => MIME[item.type],
         'Content-Length' => content.size,
-        'Cache-Control' => 'public, max-age=86400',
-        'Expires' => (Time.now + 86400*30).httpdate,
+        'Cache-Control' => 'public, must-revalidate, max-age=3600',
+        'Expires' => (Time.now.utc + 86400).httpdate,
         'Last-Modified' => item.modified.httpdate
       }, [content]]
     end
