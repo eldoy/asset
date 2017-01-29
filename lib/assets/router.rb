@@ -55,7 +55,7 @@ module Asset
       [ 200, {'Content-Type' => MIME[item.type],
         'X-Content-Type-Options' => 'nosniff',
         'Content-Length' => content.size,
-        'Cache-Control' => 'public, must-revalidate, max-age=86400',
+        'Cache-Control' => 'public, max-age=86400',
         'Expires' => (Time.now.utc + (86400 * 30)).httpdate,
         'Last-Modified' => item.modified.httpdate,
       }, [content]]
