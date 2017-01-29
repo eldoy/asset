@@ -4,7 +4,7 @@ module Asset
   class Router
 
     # Mime types for responses
-    MIME = {'js' => 'application/javascript; charset=UTF-8', 'css' => 'text/css; charset=UTF-8', 'txt' => 'text/plain; charset=UTF-8'}
+    MIME = {'js' => 'application/javascript;charset=utf-8', 'css' => 'text/css;charset=utf-8', 'txt' => 'text/plain;charset=utf-8'}
 
     # Init
     def initialize(app)
@@ -54,9 +54,9 @@ module Asset
       content = item.content(!!@key)
       [ 200, {'Content-Type' => MIME[item.type],
         'Content-Length' => content.size,
-        'Cache-Control' => 'max-age=86400, public',
-        'Expires' => (Time.now + 86400*30).utc.rfc2822,
-        'Last-Modified' => item.modified.utc.rfc2822
+        'Cache-Control' => 'public, max-age=86400',
+        'Expires' => (Time.now + 86400*30).httpdate,
+        'Last-Modified' => item.modified.httpdate
       }, [content]]
     end
 
