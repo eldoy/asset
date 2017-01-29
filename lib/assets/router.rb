@@ -53,7 +53,6 @@ module Asset
     def found(item)
       content = item.content(!!@key)
       [ 200, {'Content-Type' => MIME[item.type],
-        'X-Content-Type-Options' => 'nosniff',
         'Content-Length' => content.size,
         'Cache-Control' => 'public, max-age=86400',
         'Expires' => (Time.now.utc + (86400 * 30)).httpdate,
