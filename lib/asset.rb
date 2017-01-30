@@ -19,9 +19,8 @@ module Asset
   # Where your assets live
   @path = File.join(Dir.pwd, 'app', 'assets')
 
-  # Where to write the cache, default to /tmp
-  # Set to APP_ROOT: @cache = File.join(Dir.pwd, 'tmp')
-  @cache = '/tmp'
+  # Where to write the cache, default to ./tmp
+  @cache = File.join(Dir.pwd, 'tmp')
 
   # Automatically bounce (404) for browser /favicon.ico requests
   @favicon = true
