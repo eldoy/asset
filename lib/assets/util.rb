@@ -14,9 +14,6 @@ module Asset
 
       # Load the images
       ::Asset.images = load_images
-
-      # Preload cache in production
-      ::Asset.manifest.each{|i| i.content} if p?
     end
 
     # Get timestamp
