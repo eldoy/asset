@@ -8,4 +8,3 @@ APP_VIEWS = File.join(APP_ROOT, 'app', 'views')
 APP_ASSETS = File.join(APP_ROOT, 'app', 'assets')
 
 require './lib/asset.rb'
-

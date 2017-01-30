@@ -43,7 +43,7 @@ module Asset
 
     # Store in cache
     def write_cache
-      compressed.tap{|c| File.open(cache_path, 'w'){|f| f.write(c)}}
+      compressed.tap{|c| File.atomic_write(cache_path){|f| f.write(c)}}
     end
 
     # Cache path
@@ -71,15 +71,16 @@ module Asset
       @joined ||= files.map{|f| File.read(File.join(::Asset.path, @type, f))}.join
     end
 
-    # Production mode?
-    def p?
-      %w[staging production].include?(::Asset.mode)
-    end
-
     # Print data
     def print
       [:path, :type, :key, :name, :modified, :files, :content].map{|r| "#{r.upcase}: #{send(r).inspect}"}.join("\n")
     end
 
+    private
+
+    # Production mode?
+    def p?
+      ::Asset::Util.p?
+    end
   end
 end

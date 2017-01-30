@@ -1,5 +1,7 @@
 require 'rack'
 require 'yaml'
+require 'active_support'
+require 'active_support/core_ext'
 
 # Asset packer, middleware and helpers
 # @homepage: https://github.com/fugroup/asset

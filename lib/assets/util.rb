@@ -14,6 +14,9 @@ module Asset
 
       # Load the images
       ::Asset.images = load_images
+
+      # Preload cache in production
+      ::Asset.manifest.each{|i| i.content} if p?
     end
 
     # Get timestamp
@@ -63,5 +66,9 @@ module Asset
       Hash[*img.flatten]
     end
 
+    # Production mode?
+    def self.p?
+      %w[staging production].include?(::Asset.mode)
+    end
   end
 end
