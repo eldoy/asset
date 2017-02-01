@@ -61,7 +61,7 @@ module Asset
     end
 
     # Not found
-    def not_found(path = '@')
+    def not_found
       [404, {'Content-Type' => MIME['txt'], 'Content-Length' => 0}, []]
     end
 
