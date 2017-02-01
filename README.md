@@ -2,7 +2,9 @@
 
 Compress and cache your Javascript and CSS files automatically.
 
-Set up your manifest file, install the helpers and the middleware, and you're up and running with compressed assets served lightning fast on pure in-memory Ruby Rack.
+Set up your manifest file, install the helpers and the middleware, and you're up and running with compressed assets served lightning fast on pure Rack.
+
+All assets are loaded only once, and then stored in the browser disk cache, making your pages load in milliseconds. This is a must-have for any web site.
 
 ### Installation
 ```
@@ -69,10 +71,9 @@ js:
 
 In development mode, all files will be printed. In production mode, you'll get only one file.
 
-The file will also be cached and compressed. The cache auto-expires, but if you're storing the cache on disk you can clean it with a cron job.
+The file will also be cached and compressed. The cache auto-expires.
 
 ### Middleware
-
 The Asset gem also comes with Rack middleware to handle requests for your assets.
 
 ```ruby
