@@ -83,7 +83,12 @@ use Asset::Router
 
 # Set up middleware stack
 app = Rack::Builder.new do
-  use Asset::Router # Include the Asset middleware router
+
+  # Use Rack::Cache to enable 304 for last modified
+  use Rack::Cache
+
+  # Include the Asset middleware router
+  use Asset::Router
 
   # Use this setup to have files served from /assets/images and /assets/fonts
   use Rack::Static, :urls => ['/images', '/fonts'], :root => APP_ASSETS,
@@ -94,6 +99,7 @@ app = Rack::Builder.new do
   run App # Your app goes here
 end
 
+# Run app
 run app
 
 # Files will be available here on your server (HTTP):

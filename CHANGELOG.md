@@ -1,3 +1,9 @@
+**Version 0.2.0** - *2017-02-01*
+
+- Using atomic_write, adding activesupport as dependency
+- Fixed mime types
+- Adjusted caching
+
 **Version 0.1.14** - *2017-01-27*
 
 - Setting bundle last modified to max bundle modified time
