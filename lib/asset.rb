@@ -13,7 +13,7 @@ module Asset
 
   class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :listener, :debug; end
 
-  # Default is development
+  # Default is production
   @mode = ENV['RACK_ENV'] || 'production'
 
   # Where your assets live
