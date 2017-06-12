@@ -11,7 +11,7 @@ module Asset
   autoload :Uglifier, 'uglifier'
   autoload :Sass, 'sass'
 
-  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :listener, :debug; end
+  class << self; attr_accessor :mode, :path, :cache, :favicon, :robots, :manifest, :bundle, :images, :listener, :symlinks, :debug; end
 
   # Default is production
   @mode = ENV['RACK_ENV'] || 'production'
@@ -30,6 +30,9 @@ module Asset
 
   # Reset the assets on change in development mode
   @listener = true
+
+  # Follow symlinks in assets
+  @symlinks = false
 
   # Debug option
   @debug = false

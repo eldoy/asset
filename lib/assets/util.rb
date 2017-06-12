@@ -33,7 +33,7 @@ module Asset
 
     # Load manifest
     def self.load_manifest
-      Dir["#{Asset.path}/{css,js}/**/*.*"].map do |f|
+      Dir["#{Asset.path}/{css,js}/#{pattern}"].uniq.map do |f|
         # Extract type and name
         f =~ /(js|css)\/(.+)$/; type, name = $1, $2
 
@@ -57,10 +57,15 @@ module Asset
     # Load images into memory
     def self.load_images
       # Store the path and the timestamp
-      img = Dir["#{::Asset.path}/images/**/*.*"].map do |i|
+      img = Dir["#{::Asset.path}/images/#{pattern}"].uniq.map do |i|
         i =~ /\/images\/(.+)/; [$1, mtime("images/#{$1}").to_i]
       end
       Hash[*img.flatten]
+    end
+
+    # File match pattern
+    def self.pattern
+      ::Asset.symlinks ? '**{,/*/**}/*.*' : '**/*.*'
     end
 
     # Production mode?
