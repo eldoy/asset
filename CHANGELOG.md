@@ -1,3 +1,7 @@
+**Version 0.2.1** - *2017-06-12*
+
+- Added support for symlinks in assets
+
 **Version 0.2.0** - *2017-02-01*
 
 - Using atomic_write, adding activesupport as dependency

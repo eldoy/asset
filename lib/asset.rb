@@ -28,7 +28,7 @@ module Asset
   # Send /robots.txt to a standard robots txt with reference to /sitemap.xml
   @robots = true
 
-  # Reset the assets on change in development mode
+  # Reload the assets on change in development mode
   @listener = true
 
   # Follow symlinks in assets

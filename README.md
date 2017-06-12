@@ -21,13 +21,13 @@ helpers Asset::Router
 
 ### Settings
 ```ruby
-# Default is development
-@mode = ENV['RACK_ENV'] || 'development'
+# Default is production
+@mode = ENV['RACK_ENV'] || 'production'
 
 # Where your assets live
 @path = File.join(Dir.pwd, 'app', 'assets')
 
-# Where to write the cache, default to APP_ROOT/tmp
+# Where to write the cache, default to ./tmp
 @cache = File.join(Dir.pwd, 'tmp')
 
 # Automatically bounce (404) for browser /favicon.ico requests
@@ -35,6 +35,12 @@ helpers Asset::Router
 
 # Send /robots.txt to a standard robots txt with reference to /sitemap.xml
 @robots = true
+
+# Reload the assets on change in development mode
+@listener = true
+
+# Follow symlinks in assets
+@symlinks = false
 
 # Debug option
 @debug = false
