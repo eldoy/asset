@@ -32,7 +32,7 @@ module Asset
   @listener = true
 
   # Follow symlinks in assets
-  @symlinks = false
+  @symlinks = true
 
   # Debug option
   @debug = false
