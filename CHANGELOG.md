@@ -1,3 +1,7 @@
+**Version 0.2.3** - *2017-07-13*
+
+- Thread safe for some web servers
+
 **Version 0.2.2** - *2017-06-12*
 
 - Follow symlinks is default

@@ -11,8 +11,13 @@ module Asset
       @app = app
     end
 
-    # Call
+    # Thread safe
     def call(env)
+      dup.call!(env)
+    end
+
+    # Call
+    def call!(env)
       # Setting up request
       @request = Rack::Request.new(env)
 
