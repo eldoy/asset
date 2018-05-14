@@ -68,14 +68,14 @@ js:
 # Multiple
 <%= script_tag 'app.js', 'lib/cookies.js' %>
 
-# Bundle all Javscript files with 'bundle.js'
+# Bundle all Javascript files with 'bundle.js'
 <%= script_tag 'bundle.js' %>
 
 # Bundle all CSS files with 'bundle.css'
 <%= script_tag 'bundle.css' %>
 ```
 
-In development mode, all files will be printed. In production mode, you'll get only one file.
+In development mode, all files will be load. In production mode, you'll load only one file.
 
 The file will also be cached and compressed. The cache auto-expires.
 
