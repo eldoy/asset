@@ -73,7 +73,7 @@ module Asset
     # Robots
     def robots
       s = %{Sitemap: #{@request.scheme}://#{@request.host}/sitemap.xml}
-      [200, {'Content-Type' => MIME['txt'],'Content-Length' => s.bytesize}, [s]]
+      [200, {'Content-Type' => MIME['txt'], 'Content-Length' => s.bytesize}, [s]]
     end
 
   end
