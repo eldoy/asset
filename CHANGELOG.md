@@ -1,3 +1,7 @@
+**Version 0.2.4** - *2018-05-14*
+
+- Content length calculated by bytesize
+
 **Version 0.2.3** - *2017-07-13*
 
 - Thread safe for some web servers
