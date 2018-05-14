@@ -27,10 +27,10 @@ t = image_tag(url)
 is t, %{<img src="#{url}">}
 
 t = image_tag('bg.png')
-is t, %{<img src="/images/bg.png?1483144362">}
+is t, %{<img src="/images/bg.png?1526297272">}
 
 t = image_tag('logo/logo.png')
-is t, %{<img src="/images/logo/logo.png?1483144362">}
+is t, %{<img src="/images/logo/logo.png?1513906188">}
 
 test 'script tag development'
 
@@ -83,7 +83,7 @@ is tag, "#{t}\n#{t}"
 test ' * bundle'
 
 tag = script_tag('bundle.js')
-t = %{<script src="/assets/js/bundle-d2c29c088339dd75bf0acdd09d0bfbad.js"></script>}
+t = %{<script src="/assets/js/bundle-642d936edc4735d1343e9c4948a100da.js"></script>}
 is tag, t
 
 test '** should not write digest directly'

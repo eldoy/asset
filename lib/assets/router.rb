@@ -19,7 +19,7 @@ module Asset
     # Call
     def call!(env)
       # Setting up request
-      @request = Rack::Request.new(env)
+      @request = ::Rack::Request.new(env)
 
       # The routes
       case @request.path_info
@@ -58,7 +58,7 @@ module Asset
     def found(item)
       content = item.content(!!@key)
       [ 200, {'Content-Type' => MIME[item.type],
-        'Content-Length' => content.size,
+        'Content-Length' => content.bytesize,
         'Cache-Control' => 'public, max-age=86400',
         'Expires' => (Time.now.utc + (86400 * 30)).httpdate,
         'Last-Modified' => item.modified.httpdate,
@@ -73,7 +73,7 @@ module Asset
     # Robots
     def robots
       s = %{Sitemap: #{@request.scheme}://#{@request.host}/sitemap.xml}
-      [200, {'Content-Type' => MIME['txt'],'Content-Length' => s.size}, [s]]
+      [200, {'Content-Type' => MIME['txt'],'Content-Length' => s.bytesize}, [s]]
     end
 
   end
