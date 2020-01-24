@@ -75,7 +75,7 @@ js:
 <%= script_tag 'bundle.css' %>
 ```
 
-In development mode, all files will be load. In production mode, you'll load only one file.
+In development mode, all files will be loaded. In production mode, you'll load only one file.
 
 The file will also be cached and compressed. The cache auto-expires.
 
