@@ -135,6 +135,6 @@ We've included an image tag helper too for this use:
 
 ### Contribute
 
-Created and maintained by [Fugroup Ltd.](https://www.fugroup.net) We are the creators of [CrowdfundHQ.](https://crowdfundhq.com)
+Created and maintained by [Eldøy Projects](https://eldoy.com)
 
 `@authors: Vidar`
